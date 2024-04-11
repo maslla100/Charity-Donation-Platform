@@ -1,0 +1,23 @@
+{
+  "name": "charity-donation-platform",
+  "version": "1.0.0",
+  "description": "Charity Org",
+  "scripts": {
+    "start": "concurrently \"npm run start --prefix server\" \"npm run start --prefix client\"",
+    "install-all": "npm install && npm run install --prefix client && npm run install --prefix server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maslla100/Charity-Donation-Platform.git"
+  },
+  "author": "Luis Llamas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maslla100/Charity-Donation-Platform/issues"
+  },
+  "homepage": "https://github.com/maslla100/Charity-Donation-Platform#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
