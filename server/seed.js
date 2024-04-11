@@ -1,4 +1,3 @@
-// ./Charity-Donation-Platform/server/seed.js
 
 const db = require('./config/connection');
 const { Charity } = require('./models');
@@ -51,13 +50,14 @@ const charityData = [
 ];
 
 db.once('open', async () => {
+    // Perform seeding operations
+    console.log('Database connection open, starting seed operation...');
     try {
-        await Charity.deleteMany({});
-        await Charity.insertMany(charityData);
-        console.log('Charities seeded successfully!');
+        await seedDatabase();
+        console.log('Seeding complete.');
         process.exit(0);
     } catch (err) {
-        console.error('Failed to seed charities:', err);
+        console.error('Seeding failed:', err);
         process.exit(1);
     }
 });
