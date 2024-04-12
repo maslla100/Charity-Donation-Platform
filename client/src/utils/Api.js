@@ -1,4 +1,3 @@
-// ./Charity-Donation-Platform/client/src/utils/API.js
 
 import { gql, useMutation } from '@apollo/client';
 
@@ -10,4 +9,3 @@ export const LOGIN_USER = gql`
   }
 `;
 
-// You can use useMutation with this gql tag in your SignIn component

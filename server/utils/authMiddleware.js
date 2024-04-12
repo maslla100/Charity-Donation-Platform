@@ -1,4 +1,3 @@
-// ./Charity-Donation-Platform/server/utils/authMiddleware.js
 
 const { verifyToken } = require('./auth');
 const { AuthenticationError } = require('apollo-server-express');

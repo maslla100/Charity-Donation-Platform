@@ -5,9 +5,11 @@ const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 const path = require('path');
 const { getUserFromToken } = require('./utils/auth');
+const cors = require('cors');
 
 const PORT = process.env.PORT || 4000;
 const app = express();
+app.use(cors());
 
 // Serve static images from the client/src/images directory
 app.use('/images', express.static(path.join(__dirname, '../client/src/images')));

@@ -1,4 +1,3 @@
-// ./Charity-Donation-Platform/client/src/theme.js
 
 import { createTheme } from '@mui/material/styles';
 
