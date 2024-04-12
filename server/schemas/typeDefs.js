@@ -10,7 +10,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addCharity(name: String!, description: String!, website: String): Charity
+    addCharity(name: String!, description: String, telephone: String, address: String, ein: String, website: String, image: String, mission: String, rating: String): Charity
     addDonation(charityId: ID!, userId: ID!, amount: Float!): Donation
     loginUser(email: String!, password: String!): User
     signUp(email: String!, password: String!): AuthPayload
@@ -26,8 +26,14 @@ const typeDefs = gql`
   type Charity {
     id: ID!
     name: String!
-    description: String!
+    description: String
+    telephone: String
+    address: String
+    ein: String
     website: String
+    image: String
+    mission: String
+    rating: String
   }
 
   type Donation {
@@ -36,10 +42,11 @@ const typeDefs = gql`
     charity: Charity!
     user: User!
   }
+
   type AuthPayload {
-  token: String
-  user: User
-}
+    token: String
+    user: User
+  }
 `;
 
 module.exports = { typeDefs };
