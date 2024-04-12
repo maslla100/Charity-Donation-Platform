@@ -10,6 +10,10 @@ import { Skeleton } from '@mui/material';
 const CharityList = () => {
     const { loading, error, data } = useQuery(GET_CHARITIES);
 
+    console.log('Loading:', loading);
+    console.log('Error:', error);
+    console.log('Data:', data);
+
     if (loading) return (
         <Grid container spacing={2}>
             {Array.from(new Array(3)).map((_, index) => (

@@ -2,7 +2,6 @@
 const { verifyToken } = require('./auth');
 const { AuthenticationError } = require('apollo-server-express');
 
-// Middleware to protect routes that require authentication
 const authMiddleware = (req, res, next) => {
     try {
         const user = verifyToken(req);
