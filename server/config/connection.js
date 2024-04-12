@@ -1,17 +1,11 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-// Log the URI to check it is correct
-console.log('Attempting to connect to MongoDB at URI:', process.env.MONGODB_URI);
+const uri = process.env.MONGODB_URI;
+console.log('Attempting to connect to MongoDB at URI:', uri);
 
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(uri)
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.log('MongoDB connection error:', err));
 
-}).catch(err => console.error('MongoDB connection error:', err));
-
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', () => {
-    console.log('MongoDB connected');
-});
-
-module.exports = db;
+module.exports = mongoose.connection;

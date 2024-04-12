@@ -48,9 +48,21 @@ const charityData = [
         rating: 'B+'
     }
 ];
+// Function to seed database
+async function seedDatabase() {
+    try {
+        // Deletes all existing entries and reinserts new sample data
+        await Charity.deleteMany({});
+        const charities = await Charity.insertMany(charityData);
+        console.log('Data seeded successfully:', charities);
+    } catch (err) {
+        console.error('Error seeding data:', err);
+        throw err;  // Rethrow to be caught by the calling function
+    }
+}
 
+// Connect to the database and seed data
 db.once('open', async () => {
-    // Perform seeding operations
     console.log('Database connection open, starting seed operation...');
     try {
         await seedDatabase();
