@@ -2,6 +2,9 @@ const { Schema, model } = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new Schema({
+    name: {
+        type: String,
+    },
     email: {
         type: String,
         required: true,
@@ -11,29 +14,25 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    address: {
+        type: String,
+    },
     donations: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Donation',
         },
-    ],
-    // Add other fields as necessary, e.g., name, etc.
-});
+    ]
+}, { timestamps: true });
 
 // Hash password before saving
 userSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
-        this.password = await bcrypt.hash(this.password, 10);
+        const saltRounds = process.env.BCRYPT_SALT_ROUNDS || 10;
+        this.password = await bcrypt.hash(this.password, saltRounds);
     }
     next();
 });
 
-
-// Method to validate password
-userSchema.methods.validatePassword = async function (password) {
-    return await bcrypt.compare(password, this.password);
-};
-
 const User = model('User', userSchema);
-
 module.exports = User;

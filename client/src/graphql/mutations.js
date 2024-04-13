@@ -57,12 +57,13 @@ export const SIGNUP_AND_DONATE = gql`
 `;
 
 export const SIGNUP_USER = gql`
-  mutation SignupUser($name: String!, $email: String!, $address: String!) {
-    signupUser(name: $name, email: $email, address: $address) {
-      id
-      name
-      email
-      address
-    }
+  mutation SignupUser($name: String!, $email: String!, $password: String!, $address: String!) {
+  signupUser(name: $name, email: $email, password: $password, address: $address) {
+    id
+    name
+    email
+    address
   }
+}
+
 `;

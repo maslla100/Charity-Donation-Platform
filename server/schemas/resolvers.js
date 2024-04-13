@@ -83,17 +83,25 @@ const resolvers = {
                 throw new Error('Error adding donation');
             }
         },
-        signUp: async (_, { email, password }) => {
+        signupUser: async (_, { name, email, password, address }) => {
+            const newUser = new User({
+                name,
+                email,
+                password,
+                address
+            });
             try {
-                const user = await User.create({ email, password });
-                const token = signToken(user);
-                console.log("New user signed up:", user);
-                return { token, user };
+                await newUser.save();
+                console.log("New user signed up:", newUser);
+                return newUser;
             } catch (error) {
                 console.error("Error signing up user:", error);
-                throw new Error('Error signing up user');
+                throw new ApolloError(`Failed to sign up: ${error.message}`);
             }
         },
+
+
+
         signIn: async (_, { email, password }) => {
             try {
                 const user = await User.findOne({ email });

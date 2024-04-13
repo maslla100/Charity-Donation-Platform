@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { TextField, Button, Box, Typography, Snackbar, Alert } from '@mui/material';
+import { TextField, Button, Box, Typography, Snackbar, Alert, CircularProgress } from '@mui/material';
 import { SIGNUP_AND_DONATE } from '../graphql/mutations';
 
 const SignUptoDonate = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
+        password: '',
+        confirmPassword: '',
         amount: '',
         charityId: ''
     });
@@ -24,8 +26,8 @@ const SignUptoDonate = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!formData.name || !formData.email || !formData.amount || !formData.charityId) {
-            setSnackbarMessage('All fields are required.');
+        if (!formData.name || !formData.email || !formData.password || formData.password !== formData.confirmPassword || !formData.amount || !formData.charityId) {
+            setSnackbarMessage('Please ensure all fields are filled correctly and passwords match.');
             setOpenSnackbar(true);
             return;
         }
@@ -33,17 +35,18 @@ const SignUptoDonate = () => {
         try {
             const { data } = await signupAndDonate({
                 variables: {
-                    name: formData.name,
-                    email: formData.email,
-                    amount: parseFloat(formData.amount),
-                    charityId: formData.charityId
+                    ...formData,
+                    amount: parseFloat(formData.amount) // Ensure amount is a float
                 }
             });
-            setSnackbarMessage('Thank you for your donation!');
+            setSnackbarMessage('Account created and donation successful! Thank you for your support.');
             setOpenSnackbar(true);
+            // Reset form
             setFormData({
                 name: '',
                 email: '',
+                password: '',
+                confirmPassword: '',
                 amount: '',
                 charityId: ''
             });
@@ -81,6 +84,28 @@ const SignUptoDonate = () => {
                 margin="normal"
                 required
                 fullWidth
+                id="password"
+                label="Password"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+            />
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+            />
+            <TextField
+                margin="normal"
+                required
+                fullWidth
                 name="amount"
                 label="Donation Amount"
                 type="number"
@@ -106,10 +131,10 @@ const SignUptoDonate = () => {
                 sx={{ mt: 3, mb: 2 }}
                 disabled={loading}
             >
-                Donate Now
+                {loading ? <CircularProgress size={24} /> : 'Donate Now'}
             </Button>
             <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)}>
-                <Alert onClose={() => setOpenSnackbar(false)} severity="info" sx={{ width: '100%' }}>
+                <Alert onClose={() => setOpenSnackbar(false)} severity={error ? "error" : "success"} sx={{ width: '100%' }}>
                     {snackbarMessage}
                 </Alert>
             </Snackbar>

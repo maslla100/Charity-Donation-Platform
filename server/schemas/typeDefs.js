@@ -12,15 +12,16 @@ const typeDefs = gql`
   type Mutation {
     addCharity(name: String!, description: String, telephone: String, address: String, ein: String, website: String, image: String, mission: String, rating: String): Charity
     addDonation(charityId: ID!, userId: ID!, amount: Float!): Donation
-    loginUser(email: String!, password: String!): User
     signUp(email: String!, password: String!): AuthPayload
     signIn(email: String!, password: String!): AuthPayload
   }
 
   type User {
     id: ID!
+    name: String!
     email: String!
-    token: String!
+    address: String
+    token: String
   }
 
   type Charity {

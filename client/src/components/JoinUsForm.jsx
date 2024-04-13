@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { TextField, Button, Box, Typography, Snackbar, Alert } from '@mui/material';
-import { SIGNUP_USER } from '../graphql/mutations'; // Adjust this import according to your actual file
+import { SIGNUP_USER } from '../graphql/mutations';
 
 const JoinUsForm = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        address: ''
+        address: '',
+        password: ''
     });
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -23,33 +24,34 @@ const JoinUsForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!formData.name || !formData.email || !formData.address) {
+        if (!formData.name || !formData.email || !formData.address || !formData.password) {
             setSnackbarMessage('All fields are required.');
             setOpenSnackbar(true);
             return;
         }
 
         try {
-            const { data } = await signupUser({
+            await signupUser({
                 variables: formData
             });
             setSnackbarMessage('Account created successfully! Please log in.');
             setOpenSnackbar(true);
-            // Optionally reset form here
+            // Reset form after successful sign-up
             setFormData({
                 name: '',
                 email: '',
-                address: ''
+                address: '',
+                password: ''
             });
         } catch (err) {
             console.error('Error during sign up:', err);
-            setSnackbarMessage('Failed to create account.');
+            setSnackbarMessage('Failed to create account: ' + err.message);
             setOpenSnackbar(true);
         }
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3, mb: 2 }}        >
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3, mb: 2 }}>
             <Typography variant="h6">Join Us and Stay Informed</Typography>
             <TextField
                 margin="normal"
@@ -85,6 +87,18 @@ const JoinUsForm = () => {
                 value={formData.address}
                 onChange={handleChange}
             />
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="password"
+                label="Password"
+                type="password"
+                name="password"
+                autoComplete="current-password"
+                value={formData.password}
+                onChange={handleChange}
+            />
             <Button
                 type="submit"
                 fullWidth
@@ -92,7 +106,7 @@ const JoinUsForm = () => {
                 sx={{ mt: 3, mb: 2 }}
                 disabled={loading}
             >
-                Create Account
+                {loading ? 'Creating Account...' : 'Create Account'}
             </Button>
             <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)}>
                 <Alert onClose={() => setOpenSnackbar(false)} severity={error ? "error" : "success"} sx={{ width: '100%' }}>
