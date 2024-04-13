@@ -6,7 +6,7 @@ const DonationHistoryPage = () => {
     return (
         <div>
             <h1>Donation History</h1>
-            <p>This page will display the history of donations made by the user.</p>
+            <p>This page will display the history of donations made by the user, user must logon first.</p>
             {/* Here you can add more components or details as needed */}
         </div>
     );
