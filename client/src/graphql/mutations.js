@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useMutation, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const SEND_FEEDBACK = gql`
   mutation SendFeedback($name: String!, $email: String!, $message: String!) {
@@ -13,8 +12,19 @@ export const SEND_FEEDBACK = gql`
   }
 `;
 
+export const SEND_INQUIRY = gql`
+  mutation SendInquiry($name: String!, $email: String!, $message: String!) {
+    sendInquiry(name: $name, email: $email, message: $message) {
+      id
+      name
+      email
+      message
+      createdAt
+    }
+  }
+`;
 
-const ADD_DONATION = gql`
+export const ADD_DONATION = gql`
   mutation AddDonation($charityId: ID!, $amount: Float!) {
     addDonation(charityId: $charityId, amount: $amount) {
       id
@@ -26,41 +36,33 @@ const ADD_DONATION = gql`
   }
 `;
 
-function DonationComponent({ charityId }) {
-  const [amount, setAmount] = useState('');
-  const [addDonation, { loading, error }] = useMutation(ADD_DONATION);
-
-  const handleDonate = async () => {
-    if (amount > 0) {
-      try {
-        await addDonation({
-          variables: {
-            charityId: charityId,
-            amount: parseFloat(amount)
-          }
-        });
-        alert('Donation successful!');
-        setAmount('');
-      } catch (err) {
-        console.error('Donation error:', err);
+export const SIGNUP_AND_DONATE = gql`
+  mutation SignupAndDonate($name: String!, $email: String!, $password: String!, $charityId: ID!, $amount: Float!) {
+    signupAndDonate(name: $name, email: $email, password: $password, charityId: $charityId, amount: $amount) {
+      user {
+        id
+        name
+        email
       }
-    } else {
-      alert('Please enter a valid donation amount.');
+      donation {
+        id
+        amount
+        charity {
+          id
+          name
+        }
+      }
     }
-  };
+  }
+`;
 
-  return (
-    <div>
-      <input
-        type="number"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        placeholder="Enter donation amount"
-      />
-      <button onClick={handleDonate} disabled={loading}>
-        Donate
-      </button>
-      {error && <p>Error: {error.message}</p>}
-    </div>
-  );
-}
+export const SIGNUP_USER = gql`
+  mutation SignupUser($name: String!, $email: String!, $address: String!) {
+    signupUser(name: $name, email: $email, address: $address) {
+      id
+      name
+      email
+      address
+    }
+  }
+`;

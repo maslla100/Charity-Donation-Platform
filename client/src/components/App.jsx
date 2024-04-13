@@ -8,6 +8,10 @@ import AboutUsPage from '../pages/AboutUsPage';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ContactForm from '../components/ContactForm';
+import JoinUsForm from '../components/JoinUsForm';
+import DonationForm from '../components/ContactForm';
+import SinguptoDonate from '../pages/SignUptoDonate'
+import { Component } from 'react';
 
 function App() {
     return (
@@ -20,6 +24,12 @@ function App() {
                 <Route path="/donation-history" element={<DonationHistoryPage />} />
                 <Route path="/about-us" element={<AboutUsPage />} />
                 <Route path="/contact" element={<ContactForm />} />
+                <Route path="/joinus" element={<JoinUsForm />} />
+                <Route path="/donation" element={<DonationForm />} />
+                <Route path="/signuptodonate" element={<SinguptoDonate />} />
+
+
+
             </Routes>
             <Footer />
         </Router>
