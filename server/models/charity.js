@@ -1,6 +1,10 @@
-const { Schema, model } = require('mongoose');
+const { ObjectId } = require('mongodb');
+const { Schema } = ('mongoose');
+const mongoose = require('mongoose');
 
-const charitySchema = new Schema({
+
+const charitySchema = new mongoose.Schema({
+    _id: ObjectId,
     name: {
         type: String,
         required: true,
@@ -16,6 +20,6 @@ const charitySchema = new Schema({
     // Include any other relevant fields
 });
 
-const Charity = model('Charity', charitySchema);
+const Charity = mongoose.model('Charity', charitySchema);
 
 module.exports = Charity;

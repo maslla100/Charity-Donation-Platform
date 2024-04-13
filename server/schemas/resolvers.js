@@ -4,7 +4,6 @@ const { signToken } = require('../utils/auth');
 const resolvers = {
     Query: {
         charities: async () => {
-            console.log("Fetching all charities");
             try {
                 const allCharities = await Charity.find({});
                 console.log("Charities found:", allCharities);
@@ -14,16 +13,23 @@ const resolvers = {
                 throw new Error('Error fetching charities');
             }
         },
+
         charity: async (_, { id }) => {
+            console.log("Fetching charity by ID");
             try {
                 const charity = await Charity.findById(id);
+                if (!charity) {
+                    console.log("No charity found with ID:", id);
+                    return null;
+                }
                 console.log("Charity found:", charity);
-                return charity;
+                return { ...charity._doc, id: charity._id.toString() };
             } catch (error) {
                 console.error("Error fetching charity by ID:", error);
                 throw new Error('Error fetching charity by ID');
             }
         },
+
         donations: async () => {
             try {
                 const donations = await Donation.find().populate('charity user');

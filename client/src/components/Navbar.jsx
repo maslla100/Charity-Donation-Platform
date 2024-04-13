@@ -23,6 +23,12 @@ const Navbar = () => {
                     <Link to="/about-us" style={{ textDecoration: 'none', color: 'inherit' }}>
                         <Button color="inherit">About Us</Button>
                     </Link>
+                    <Link to="/contact" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Button color="inherit">Contact Us</Button>
+                    </Link>
+                    <Link to="/joinus" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Button color="inherit">Join Us</Button>
+                    </Link>
                     <Link to="/signin" style={{ textDecoration: 'none', color: 'inherit' }}>
                         <Button color="inherit">Sign In</Button>
                     </Link>

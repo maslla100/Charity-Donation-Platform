@@ -8,11 +8,7 @@ import Alert from '@mui/material/Alert';
 import { Skeleton } from '@mui/material';
 
 const CharityList = () => {
-    const { loading, error, data } = useQuery(GET_CHARITIES);
-
-    console.log('Loading:', loading);
-    console.log('Error:', error);
-    console.log('Data:', data);
+    const { data, loading, error } = useQuery(GET_CHARITIES);
 
     if (loading) return (
         <Grid container spacing={2}>
@@ -26,13 +22,13 @@ const CharityList = () => {
         </Grid>
     );
 
-    if (error) return <Alert severity="error">Error loading charities!</Alert>;
+    if (error) return <Alert severity="error">Error loading charities: {error.message}</Alert>;
 
-    if (!data || !data.charities) return <p>No charities found.</p>;
+    if (!data || !data.charities) return <p>No charities found. Check if the database is populated.</p>;
 
     return (
         <Grid container spacing={2}>
-            {data.charities.map((charity) => (
+            {data.charities.map(charity => (
                 <Grid item key={charity.id} xs={12} sm={6} md={4}>
                     <CharityCard charity={charity} />
                 </Grid>

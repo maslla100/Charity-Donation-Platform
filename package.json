@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/maslla100/Charity-Donation-Platform#readme",
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "concurrently": "^8.2.2"
   }
 }

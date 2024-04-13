@@ -1,4 +1,3 @@
-// ./Charity-Donation-Platform/client/src/pages/CharityPage.js
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
