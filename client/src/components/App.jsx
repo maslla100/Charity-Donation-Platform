@@ -11,7 +11,6 @@ import ContactForm from '../components/ContactForm';
 import JoinUsForm from '../components/JoinUsForm';
 import DonationForm from '../components/ContactForm';
 import SinguptoDonate from '../pages/SignUptoDonate'
-import { Component } from 'react';
 
 function App() {
     return (
@@ -27,9 +26,6 @@ function App() {
                 <Route path="/joinus" element={<JoinUsForm />} />
                 <Route path="/donation" element={<DonationForm />} />
                 <Route path="/signuptodonate" element={<SinguptoDonate />} />
-
-
-
             </Routes>
             <Footer />
         </Router>

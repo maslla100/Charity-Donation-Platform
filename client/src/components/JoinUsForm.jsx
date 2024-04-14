@@ -8,7 +8,7 @@ const JoinUsForm = () => {
         name: '',
         email: '',
         address: '',
-        password: ''
+        password: '',
     });
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -18,7 +18,7 @@ const JoinUsForm = () => {
         const { name, value } = event.target;
         setFormData(prev => ({
             ...prev,
-            [name]: value
+            [name]: value,
         }));
     };
 
@@ -31,8 +31,9 @@ const JoinUsForm = () => {
         }
 
         try {
+
             await signupUser({
-                variables: formData
+                variables: { ...formData, password: hashedPassword },
             });
             setSnackbarMessage('Account created successfully! Please log in.');
             setOpenSnackbar(true);
@@ -41,11 +42,18 @@ const JoinUsForm = () => {
                 name: '',
                 email: '',
                 address: '',
-                password: ''
+                password: '',
             });
         } catch (err) {
             console.error('Error during sign up:', err);
-            setSnackbarMessage('Failed to create account: ' + err.message);
+            // Handle specific error messages (replace with your logic)
+            let errorMessage = 'Failed to create account.';
+            if (err.message.includes('email')) {
+                errorMessage = 'Email already exists.';
+            } else if (err.message.includes('password')) {
+                errorMessage = 'Password requirements not met.';
+            }
+            setSnackbarMessage(errorMessage);
             setOpenSnackbar(true);
         }
     };

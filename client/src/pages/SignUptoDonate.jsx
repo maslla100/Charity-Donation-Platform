@@ -14,6 +14,7 @@ const SignUptoDonate = () => {
     });
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [errorField, setErrorField] = useState('');
     const [signupAndDonate, { loading, error }] = useMutation(SIGNUP_AND_DONATE);
 
     const handleChange = (event) => {
@@ -22,26 +23,37 @@ const SignUptoDonate = () => {
             ...prev,
             [name]: value
         }));
+        if (errorField) setErrorField(''); // Clear error field when user corrects input
+    };
+
+    const validateForm = () => {
+        if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword || !formData.amount || !formData.charityId) {
+            setErrorField('All fields must be filled');
+            return false;
+        }
+        if (formData.password !== formData.confirmPassword) {
+            setErrorField('Passwords do not match');
+            return false;
+        }
+        return true;
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!formData.name || !formData.email || !formData.password || formData.password !== formData.confirmPassword || !formData.amount || !formData.charityId) {
-            setSnackbarMessage('Please ensure all fields are filled correctly and passwords match.');
+        if (!validateForm()) {
             setOpenSnackbar(true);
             return;
         }
 
         try {
-            const { data } = await signupAndDonate({
+            await signupAndDonate({
                 variables: {
                     ...formData,
-                    amount: parseFloat(formData.amount) // Ensure amount is a float
+                    amount: parseFloat(formData.amount)
                 }
             });
             setSnackbarMessage('Account created and donation successful! Thank you for your support.');
             setOpenSnackbar(true);
-            // Reset form
             setFormData({
                 name: '',
                 email: '',
@@ -60,70 +72,20 @@ const SignUptoDonate = () => {
     return (
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <Typography variant="h6">Sign Up to Donate</Typography>
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="name"
-                label="Name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-            />
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-            />
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="password"
-                label="Password"
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-            />
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="confirmPassword"
-                label="Confirm Password"
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-            />
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="amount"
-                label="Donation Amount"
-                type="number"
-                id="amount"
-                value={formData.amount}
-                onChange={handleChange}
-            />
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="charityId"
-                label="Charity ID"
-                type="text"
-                id="charityId"
-                value={formData.charityId}
-                onChange={handleChange}
-            />
+            {Object.keys(formData).map(field => (
+                <TextField
+                    key={field}
+                    margin="normal"
+                    required
+                    fullWidth
+                    id={field}
+                    label={field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1')}
+                    name={field}
+                    type={field.includes('password') ? 'password' : (field === 'amount' ? 'number' : 'text')}
+                    value={formData[field]}
+                    onChange={handleChange}
+                />
+            ))}
             <Button
                 type="submit"
                 fullWidth
@@ -134,8 +96,8 @@ const SignUptoDonate = () => {
                 {loading ? <CircularProgress size={24} /> : 'Donate Now'}
             </Button>
             <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)}>
-                <Alert onClose={() => setOpenSnackbar(false)} severity={error ? "error" : "success"} sx={{ width: '100%' }}>
-                    {snackbarMessage}
+                <Alert onClose={() => setOpenSnackbar(false)} severity={error || errorField ? "error" : "success"} sx={{ width: '100%' }}>
+                    {errorField || snackbarMessage}
                 </Alert>
             </Snackbar>
             {error && <Typography color="error">Error: {error.message}</Typography>}

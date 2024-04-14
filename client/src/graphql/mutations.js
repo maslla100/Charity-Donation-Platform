@@ -29,6 +29,7 @@ export const ADD_DONATION = gql`
     addDonation(charityId: $charityId, amount: $amount) {
       id
       charity {
+        id
         name
       }
       amount
@@ -58,12 +59,11 @@ export const SIGNUP_AND_DONATE = gql`
 
 export const SIGNUP_USER = gql`
   mutation SignupUser($name: String!, $email: String!, $password: String!, $address: String!) {
-  signupUser(name: $name, email: $email, password: $password, address: $address) {
-    id
-    name
-    email
-    address
+    signupUser(name: $name, email: $email, password: $password, address: $address) {
+      id
+      name
+      email
+      address
+    }
   }
-}
-
 `;

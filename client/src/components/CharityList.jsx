@@ -3,7 +3,6 @@ import { useQuery } from '@apollo/client';
 import { GET_CHARITIES } from '../graphql/queries';
 import CharityCard from './CharityCard';
 import Grid from '@mui/material/Grid';
-import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import { Skeleton } from '@mui/material';
 

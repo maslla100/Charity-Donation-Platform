@@ -1,6 +1,5 @@
 import React from 'react';
 import CharityList from '../components/CharityList';
-import ContactForm from '../components/ContactForm'; // Importing the ContactForm
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {
