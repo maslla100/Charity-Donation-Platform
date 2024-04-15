@@ -1,4 +1,3 @@
-
 const typeDefs = `
 
   type Query {
@@ -12,7 +11,7 @@ const typeDefs = `
   type Mutation {
     addCharity(name: String!, description: String, email: String, telephone: String, logo: String, address: String, ein: String, missionStatement: String, website: String, rating: Float): Charity
     addDonation(charityId: ID!, userId: ID!, amount: Float!): Donation
-    signupUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
+    signupUser(firstName: String!, lastName: String!, email: String!, password: String!, number: String!, street: String!, city: String!, state: String!, zipCode: String!): Auth
     signIn(email: String!, password: String!): Auth
   }
 
@@ -21,8 +20,16 @@ const typeDefs = `
     firstName: String
     lastName: String
     email: String
-    address: String
+    address: Address
     donations: [Donation]
+  }
+
+  type Address {
+    number: String
+    street: String
+    city: String
+    state: String
+    zipCode: String
   }
 
   type Auth {
@@ -44,8 +51,6 @@ const typeDefs = `
     rating: Float
     donations: [Donation]
   }
-
-
 
   type Donation {
     _id: ID!

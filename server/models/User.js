@@ -17,19 +17,28 @@ const userSchema = new Schema({
     type: String,
     required: true,
     unique: true,
+    trim: true,
     index: true,
+    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
   },
   password: {
     type: String,
     required: true,
-    minlength: 5
+    minlength: 8,
+    validate: {
+      validator: function (v) {
+        return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/.test(v);
+      },
+      message: props => `${props.value} is not a strong enough password`
+    }
   },
   address: {
     number: { type: String, required: true, trim: true },
     street: { type: String, required: true, trim: true },
     city: { type: String, required: true, trim: true },
     state: { type: String, required: true, trim: true },
-    zipCode: { type: String, required: true, trim: true }
+    zipCode: { type: String, required: true, trim: true },
+    country: { type: String, required: false, trim: true } // Optional based on your requirements
   },
   donations: [
     {
@@ -37,7 +46,14 @@ const userSchema = new Schema({
       ref: 'Donation',
     },
   ],
-}, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
+}, {
+  timestamps: true, toJSON: {
+    virtuals: true, transform: (doc, ret) => {
+      delete ret.password;
+      return ret;
+    }
+  }, toObject: { virtuals: true }
+});
 
 userSchema.virtual('formattedAddress').get(function () {
   return `${this.address.number} ${this.address.street}, ${this.address.city}, ${this.address.state} ${this.address.zipCode}`;
@@ -45,7 +61,7 @@ userSchema.virtual('formattedAddress').get(function () {
 
 userSchema.pre('save', async function (next) {
   if (this.isNew || this.isModified('password')) {
-    const saltRounds = 10;
+    const saltRounds = process.env.BCRYPT_SALT_ROUNDS ? parseInt(process.env.BCRYPT_SALT_ROUNDS, 10) : 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }
   next();

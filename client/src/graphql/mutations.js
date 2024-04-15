@@ -36,14 +36,11 @@ export const ADD_DONATION = gql`
 `;
 
 export const SIGNUP_AND_DONATE = gql`
-mutation SignupAndDonate($firstName: String!, $lastName: String!, $email: String!, $password: String!, 
-                    $number: String!, $street: String!, $city: String!, $state: String!, $zipCode: String!,
-                    $charityId: ID!, $amount: Float!) {
-  signupAndDonate(firstName: $firstName, lastName: $lastName, email: $email, password: $password, 
-             address: { number: $number, street: $street, city: $city, state: $state, zipCode: $zipCode }, 
-             charityId: $charityId, amount: $amount) {
+mutation SignupAndDonate($firstName: String!, $lastName: String!, $email: String!, $password: String!, $number: String!, $street: String!, $city: String!, $state: String!, $zipCode: String!, $charityId: ID!, $amount: Float!) {
+  signupAndDonate(firstName: $firstName, lastName: $lastName, email: $email, password: $password, number: $number, street: $street, city: $city, state: $state, zipCode: $zipCode, charityId: $charityId, amount: $amount) {
+    token
     user {
-      id
+      _id
       firstName
       lastName
       email
@@ -56,12 +53,12 @@ mutation SignupAndDonate($firstName: String!, $lastName: String!, $email: String
       }
     }
     donation {
-      id
+      _id
+      amount
       charity {
-        id
+        _id
         name
       }
-      amount
     }
   }
 }
