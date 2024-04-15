@@ -1,4 +1,6 @@
-const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+
 
 const donationSchema = new Schema({
   amount: {
@@ -15,9 +17,12 @@ const donationSchema = new Schema({
     ref: 'User',
     required: true,
   },
-  // Add any other fields as necessary
+}, {
+  timestamps: true
 });
 
-const Donation = model('Donation', donationSchema);
+
+const Donation = mongoose.model('Donation', donationSchema);
+
 
 module.exports = Donation;

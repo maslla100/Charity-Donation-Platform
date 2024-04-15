@@ -1,7 +1,5 @@
-const { gql } = require('apollo-server-express');
 
-const typeDefs = gql`
-  scalar DateTime
+const typeDefs = `
 
   type Query {
     charities: [Charity]
@@ -12,44 +10,48 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addCharity(name: String!, description: String, telephone: String, address: String, ein: String, website: String, image: String, mission: String, rating: Float): Charity
+    addCharity(name: String!, description: String, email: String, telephone: String, logo: String, address: String, ein: String, missionStatement: String, website: String, rating: Float): Charity
     addDonation(charityId: ID!, userId: ID!, amount: Float!): Donation
-    signUp(email: String!, password: String!): AuthPayload
-    addUser(name: String, email: String!, password: String!, address: String): User
+    signupUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
+    signIn(email: String!, password: String!): Auth
   }
 
   type User {
-    id: ID!
-    name: String
-    email: String!
+    _id: ID
+    firstName: String
+    lastName: String
+    email: String
     address: String
-    token: String
-    createdAt: DateTime
-    updatedAt: DateTime
+    donations: [Donation]
+  }
+
+  type Auth {
+    token: ID
+    user: User
   }
 
   type Charity {
-    id: ID!
-    name: String!
+    _id: ID
+    name: String
     description: String
+    email: String
     telephone: String
+    logo: String
     address: String
     ein: String
+    missionStatement: String
     website: String
-    image: String
-    mission: String
     rating: Float
-    createdAt: DateTime
-    updatedAt: DateTime
+    donations: [Donation]
   }
 
+
+
   type Donation {
-    id: ID!
-    amount: Float!
-    charity: Charity!
-    user: User!
-    createdAt: DateTime
-    updatedAt: DateTime
+    _id: ID!
+    amount: Float
+    charity: Charity
+    user: User
   }
 
   type AuthPayload {

@@ -7,7 +7,6 @@ export const SEND_FEEDBACK = gql`
       name
       email
       message
-      createdAt
     }
   }
 `;
@@ -19,14 +18,44 @@ export const SEND_INQUIRY = gql`
       name
       email
       message
-      createdAt
     }
   }
 `;
 
 export const ADD_DONATION = gql`
-  mutation AddDonation($charityId: ID!, $amount: Float!) {
-    addDonation(charityId: $charityId, amount: $amount) {
+ mutation AddDonation($charityId: ID!, $amount: Float!) {
+  addDonation(charityId: $charityId, amount: $amount) {
+    id
+    charity {
+      id
+      name
+    }
+    amount
+  }
+}
+`;
+
+export const SIGNUP_AND_DONATE = gql`
+mutation SignupAndDonate($firstName: String!, $lastName: String!, $email: String!, $password: String!, 
+                    $number: String!, $street: String!, $city: String!, $state: String!, $zipCode: String!,
+                    $charityId: ID!, $amount: Float!) {
+  signupAndDonate(firstName: $firstName, lastName: $lastName, email: $email, password: $password, 
+             address: { number: $number, street: $street, city: $city, state: $state, zipCode: $zipCode }, 
+             charityId: $charityId, amount: $amount) {
+    user {
+      id
+      firstName
+      lastName
+      email
+      address {
+        number
+        street
+        city
+        state
+        zipCode
+      }
+    }
+    donation {
       id
       charity {
         id
@@ -35,35 +64,31 @@ export const ADD_DONATION = gql`
       amount
     }
   }
+}
 `;
 
-export const SIGNUP_AND_DONATE = gql`
-  mutation SignupAndDonate($name: String!, $email: String!, $password: String!, $charityId: ID!, $amount: Float!) {
-    signupAndDonate(name: $name, email: $email, password: $password, charityId: $charityId, amount: $amount) {
+
+export const SIGNUP_USER = gql`
+  mutation SignupUser($firstName: String!, $lastName: String!, $email: String!, $password: String!,
+  $number: String!, $street: String!, $city: String!, $state: String!, $zipCode: String!) {
+    signupUser(firstName: $firstName, lastName: $lastName, email: $email, password: $password,
+      number: $number, street: $street, city: $city, state: $state, zipCode: $zipCode) {
+      token
       user {
-        id
-        name
+        _id
+        firstName
+        lastName
         email
-      }
-      donation {
-        id
-        amount
-        charity {
-          id
-          name
+        address {
+          number
+          street
+          city
+          state
+          zipCode
         }
       }
     }
   }
 `;
 
-export const SIGNUP_USER = gql`
-  mutation SignupUser($name: String!, $email: String!, $password: String!, $address: String!) {
-    signupUser(name: $name, email: $email, password: $password, address: $address) {
-      id
-      name
-      email
-      address
-    }
-  }
-`;
+

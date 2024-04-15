@@ -7,7 +7,8 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { getUserFromToken } = require('./utils/auth');
 const db = require('./config/connection');
-const { typeDefs, resolvers } = require('./schemas');
+const { typeDefs, resolvers } = require('./schemas/index');
+
 
 const PORT = process.env.PORT || 4000;
 const app = express();

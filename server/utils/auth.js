@@ -1,14 +1,14 @@
+const bcrypt = require('bcryptjs'); // Require bcrypt only once at the top
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models/User');
+const { GraphQLError } = require('graphql');
 
 // Generate a JWT token
 const signToken = (user) => jwt.sign({ email: user.email, id: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
 // Hash a password using bcrypt
-const hashPassword = async (password) => await bcrypt.hash(password, 10) // Salt rounds: 10
-;
+const hashPassword = async (password) => await bcrypt.hash(password, 12); // Salt rounds: 12
 
 // Verify JWT token from request headers
 const verifyToken = (req) => {

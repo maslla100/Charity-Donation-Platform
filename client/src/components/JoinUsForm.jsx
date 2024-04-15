@@ -5,10 +5,15 @@ import { SIGNUP_USER } from '../graphql/mutations';
 
 const JoinUsForm = () => {
     const [formData, setFormData] = useState({
-        name: '',
+        firstName: '',
+        lastName: '',
         email: '',
-        address: '',
         password: '',
+        number: '',
+        street: '',
+        city: '',
+        state: '',
+        zipCode: '',
     });
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -16,44 +21,42 @@ const JoinUsForm = () => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value,
-        }));
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const validateForm = () => {
+        if (!formData.firstName || !formData.lastName || !formData.email || !formData.password || !formData.number || !formData.street || !formData.city || !formData.state || !formData.zipCode) {
+            setSnackbarMessage('All fields are required.');
+            setOpenSnackbar(true);
+            return false;
+        }
+        return true;
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!formData.name || !formData.email || !formData.address || !formData.password) {
-            setSnackbarMessage('All fields are required.');
-            setOpenSnackbar(true);
-            return;
-        }
+        if (!validateForm()) return;
 
         try {
-
-            await signupUser({
-                variables: { ...formData, password: hashedPassword },
+            const response = await signupUser({
+                variables: { ...formData },
             });
             setSnackbarMessage('Account created successfully! Please log in.');
             setOpenSnackbar(true);
-            // Reset form after successful sign-up
             setFormData({
-                name: '',
+                firstName: '',
+                lastName: '',
                 email: '',
-                address: '',
                 password: '',
+                number: '',
+                street: '',
+                city: '',
+                state: '',
+                zipCode: '',
             });
         } catch (err) {
             console.error('Error during sign up:', err);
-            // Handle specific error messages (replace with your logic)
-            let errorMessage = 'Failed to create account.';
-            if (err.message.includes('email')) {
-                errorMessage = 'Email already exists.';
-            } else if (err.message.includes('password')) {
-                errorMessage = 'Password requirements not met.';
-            }
-            setSnackbarMessage(errorMessage);
+            setSnackbarMessage(err.message || 'Failed to create account.');
             setOpenSnackbar(true);
         }
     };
@@ -61,52 +64,20 @@ const JoinUsForm = () => {
     return (
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3, mb: 2 }}>
             <Typography variant="h6">Join Us and Stay Informed</Typography>
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="name"
-                label="Name"
-                name="name"
-                autoComplete="name"
-                autoFocus
-                value={formData.name}
-                onChange={handleChange}
-            />
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                value={formData.email}
-                onChange={handleChange}
-            />
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="address"
-                label="Address"
-                name="address"
-                autoComplete="address"
-                value={formData.address}
-                onChange={handleChange}
-            />
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="password"
-                label="Password"
-                type="password"
-                name="password"
-                autoComplete="current-password"
-                value={formData.password}
-                onChange={handleChange}
-            />
+            {['firstName', 'lastName', 'email', 'number', 'street', 'city', 'state', 'zipCode', 'password'].map(field => (
+                <TextField
+                    key={field}
+                    margin="normal"
+                    required
+                    fullWidth
+                    id={field}
+                    label={field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1')}
+                    name={field}
+                    type={field === 'password' ? 'password' : 'text'}
+                    value={formData[field]}
+                    onChange={handleChange}
+                />
+            ))}
             <Button
                 type="submit"
                 fullWidth

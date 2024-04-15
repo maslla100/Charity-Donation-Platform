@@ -5,10 +5,16 @@ import { SIGNUP_AND_DONATE } from '../graphql/mutations';
 
 const SignUptoDonate = () => {
     const [formData, setFormData] = useState({
-        name: '',
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
         confirmPassword: '',
+        number: '',
+        street: '',
+        city: '',
+        state: '',
+        zipCode: '',
         amount: '',
         charityId: ''
     });
@@ -27,9 +33,12 @@ const SignUptoDonate = () => {
     };
 
     const validateForm = () => {
-        if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword || !formData.amount || !formData.charityId) {
-            setErrorField('All fields must be filled');
-            return false;
+        const requiredFields = ['firstName', 'lastName', 'email', 'password', 'confirmPassword', 'number', 'street', 'city', 'state', 'zipCode', 'amount', 'charityId'];
+        for (let field of requiredFields) {
+            if (!formData[field]) {
+                setErrorField(`Please fill out the ${field.replace(/([A-Z])/g, ' $1')}`);
+                return false;
+            }
         }
         if (formData.password !== formData.confirmPassword) {
             setErrorField('Passwords do not match');
@@ -42,23 +51,39 @@ const SignUptoDonate = () => {
         event.preventDefault();
         if (!validateForm()) {
             setOpenSnackbar(true);
+            setSnackbarMessage(errorField || "Please check your input fields.");
             return;
         }
 
         try {
             await signupAndDonate({
                 variables: {
-                    ...formData,
-                    amount: parseFloat(formData.amount)
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    email: formData.email,
+                    password: formData.password,
+                    number: formData.number,
+                    street: formData.street,
+                    city: formData.city,
+                    state: formData.state,
+                    zipCode: formData.zipCode,
+                    charityId: formData.charityId,
+                    amount: parseFloat(formData.amount),
                 }
             });
             setSnackbarMessage('Account created and donation successful! Thank you for your support.');
             setOpenSnackbar(true);
             setFormData({
-                name: '',
+                firstName: '',
+                lastName: '',
                 email: '',
                 password: '',
                 confirmPassword: '',
+                number: '',
+                street: '',
+                city: '',
+                state: '',
+                zipCode: '',
                 amount: '',
                 charityId: ''
             });
@@ -68,6 +93,7 @@ const SignUptoDonate = () => {
             setOpenSnackbar(true);
         }
     };
+
 
     return (
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -97,7 +123,7 @@ const SignUptoDonate = () => {
             </Button>
             <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)}>
                 <Alert onClose={() => setOpenSnackbar(false)} severity={error || errorField ? "error" : "success"} sx={{ width: '100%' }}>
-                    {errorField || snackbarMessage}
+                    {snackbarMessage || 'An error occurred'}
                 </Alert>
             </Snackbar>
             {error && <Typography color="error">Error: {error.message}</Typography>}
