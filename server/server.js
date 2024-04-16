@@ -15,7 +15,7 @@ const app = express();
 
 app.use(cors());
 
-// Disable CSP for development by setting contentSecurityPolicy to false in Helmet
+// Disabled the CSP for development by setting contentSecurityPolicy to false in Helmet
 app.use(helmet({
   contentSecurityPolicy: false,
 }));

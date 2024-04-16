@@ -37,9 +37,12 @@ const typeDefs = `
     user: User
   }
 
+  """
+  Represents a single charity with related information.
+  """
   type Charity {
     _id: ID
-    name: String
+    name: String!
     description: String
     email: String
     telephone: String
@@ -51,6 +54,7 @@ const typeDefs = `
     rating: Float
     donations: [Donation]
   }
+  
 
   type Donation {
     _id: ID!

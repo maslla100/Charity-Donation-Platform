@@ -95,19 +95,34 @@ const resolvers = {
       }
     },
 
+
     signIn: async (_, { email, password }) => {
       try {
+        console.log(`Looking for user with email: ${email}`);
         const user = await User.findOne({ email });
-        if (!user || !(await user.validatePassword(password))) {
+        if (!user) {
+          console.log(`No user found with email: ${email}`);
           throw new AuthenticationError('Incorrect credentials');
         }
+        console.log(`User found: ${user.email}, validating password...`);
+        const valid = await user.isCorrectPassword(password);
+        if (!valid) {
+          console.log(`Password validation failed for user: ${email}`);
+          throw new AuthenticationError('Incorrect credentials');
+        }
+        console.log(`Password validated, generating token...`);
         const token = signToken(user);
         return { token, user };
       } catch (error) {
-        return handleError(error, 'Error signing in user');
+        console.error('SignIn error:', error);
+        throw new ApolloError('Error signing in user');
       }
     },
+
+
   },
 };
+
+
 
 module.exports = { resolvers };

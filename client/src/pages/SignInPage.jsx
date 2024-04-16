@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/Api';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Button, Container, Paper, Typography, CircularProgress } from '@mui/material';
-import Alert from '@mui/material/Alert';
+import { TextField, Button, Container, Paper, Typography, CircularProgress, Alert } from '@mui/material';
 
 const SignInPage = () => {
     const [formState, setFormState] = useState({ email: '', password: '' });
@@ -14,9 +13,8 @@ const SignInPage = () => {
         event.preventDefault();
         try {
             const { data } = await loginUser({ variables: { ...formState } });
-            // Assuming the token is part of the response data, save it
-            localStorage.setItem('token', data.loginUser.token); // Uncomment if using token authentication
-            navigate('/'); // Redirect to homepage
+            localStorage.setItem('token', data.loginUser.token);
+            navigate('/');
         } catch (e) {
             console.error('Sign in error:', e);
         }
@@ -29,11 +27,11 @@ const SignInPage = () => {
 
     return (
         <Container component="main" maxWidth="xs">
-            <Paper elevation={6} style={{ padding: '20px', marginTop: '50px' }}>
+            <Paper elevation={6} sx={{ p: 3, mt: 7 }}>
                 <Typography component="h1" variant="h5">
                     Sign In
                 </Typography>
-                <form onSubmit={handleFormSubmit} style={{ marginTop: '20px' }}>
+                <form onSubmit={handleFormSubmit} sx={{ mt: 3 }}>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -66,7 +64,7 @@ const SignInPage = () => {
                         variant="contained"
                         color="primary"
                         disabled={loading}
-                        style={{ marginTop: '24px', marginBottom: '16px' }}
+                        sx={{ mt: 3, mb: 2 }}
                     >
                         {loading ? <CircularProgress size={24} /> : 'Sign In'}
                     </Button>
