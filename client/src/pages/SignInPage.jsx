@@ -6,17 +6,23 @@ import { TextField, Button, Container, Paper, Typography, CircularProgress, Aler
 
 const SignInPage = () => {
     const [formState, setFormState] = useState({ email: '', password: '' });
-    const [loginUser, { loading, error }] = useMutation(LOGIN_USER);
+    const [loginUser, { loading, data, error }] = useMutation(LOGIN_USER);
     const navigate = useNavigate();
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
         try {
-            const { data } = await loginUser({ variables: { ...formState } });
-            localStorage.setItem('token', data.loginUser.token);
-            navigate('/');
+            const response = await loginUser({ variables: { ...formState } });
+            if (response.data.loginUser.token) {
+                localStorage.setItem('token', response.data.loginUser.token);
+                navigate('/');
+            } else {
+                console.error('Login succeeded but no token received.');
+
+            }
         } catch (e) {
             console.error('Sign in error:', e);
+
         }
     };
 
@@ -68,7 +74,7 @@ const SignInPage = () => {
                     >
                         {loading ? <CircularProgress size={24} /> : 'Sign In'}
                     </Button>
-                    {error && <Alert severity="error">Login failed. Please check your credentials.</Alert>}
+                    {error && <Alert severity="error">{error.message || 'Login failed. Please check your credentials.'}</Alert>}
                 </form>
             </Paper>
         </Container>

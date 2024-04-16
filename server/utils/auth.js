@@ -8,7 +8,7 @@ const { GraphQLError } = require('graphql');
 const signToken = (user) => jwt.sign({ email: user.email, id: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
 // Hash a password using bcrypt
-const hashPassword = async (password) => await bcrypt.hash(password, 12); // Salt rounds: 12
+const hashPassword = async (password) => await bcrypt.hash(password, 10); // Salt rounds: 10
 
 // Verify JWT token from request headers
 const verifyToken = (req) => {

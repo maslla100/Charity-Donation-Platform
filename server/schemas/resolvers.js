@@ -1,6 +1,10 @@
 const bcrypt = require('bcryptjs');
 const { User, Charity, Donation } = require('../models');
-const { signToken, AuthenticationError, ApolloError } = require('../utils/auth');
+const { signToken } = require('../utils/auth');
+const { ApolloError } = require('apollo-server-express');
+const { AuthenticationError } = require('apollo-server-express');
+
+
 
 const handleError = (error, message) => {
   console.error(message, error);
@@ -78,7 +82,7 @@ const resolvers = {
     },
 
     signupUser: async (_, { firstName, lastName, email, password, number, street, city, state, zipCode }) => {
-      const saltRounds = 12;
+      const saltRounds = 10;
       try {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         const newUser = new User({
@@ -98,26 +102,37 @@ const resolvers = {
 
     signIn: async (_, { email, password }) => {
       try {
-        console.log(`Looking for user with email: ${email}`);
         const user = await User.findOne({ email });
         if (!user) {
           console.log(`No user found with email: ${email}`);
           throw new AuthenticationError('Incorrect credentials');
         }
-        console.log(`User found: ${user.email}, validating password...`);
-        const valid = await user.isCorrectPassword(password);
+
+        /*const valid = await user.isCorrectPassword(password);
         if (!valid) {
-          console.log(`Password validation failed for user: ${email}`);
+          console.log(`Expected hash: ${user.password}`);  // Log expected hash
+          console.log(`Input hash: ${bcrypt.hashSync(password, bcrypt.getSalt(user.password))}`);  // Log input hash
+          throw new AuthenticationError('Incorrect credentials');
+        } */
+
+        const valid = await bcrypt.compare(password, user.password);
+        console.log("Password comparison result:", valid);  // Check the result of the comparison
+        if (!valid) {
           throw new AuthenticationError('Incorrect credentials');
         }
-        console.log(`Password validated, generating token...`);
+
         const token = signToken(user);
+        if (!token) {
+          console.log(`Token generation failed for user: ${email}`);
+          throw new ApolloError('Error signing in user');
+        }
         return { token, user };
       } catch (error) {
         console.error('SignIn error:', error);
-        throw new ApolloError('Error signing in user');
+        throw new ApolloError('Error signing in user', { error: error.message });
       }
     },
+
 
 
   },
