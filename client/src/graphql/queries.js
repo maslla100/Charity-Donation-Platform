@@ -20,3 +20,23 @@ export const GET_CHARITIES = gql`
   }
 }
 `;
+
+
+import { gql } from '@apollo/client';
+
+export const FETCH_USER_DASHBOARD = gql`
+  query FetchUserDashboard($userId: ID!) {
+    user(id: $userId) {
+      name
+      email
+      donations {
+        charity {
+          name
+          description
+        }
+        amount
+        date
+      }
+    }
+  }
+`;

@@ -12,19 +12,26 @@ const SignInPage = () => {
     const handleFormSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await loginUser({ variables: { ...formState } });
-            if (response.data.loginUser.token) {
-                localStorage.setItem('token', response.data.loginUser.token);
-                navigate('/');
+            const response = await loginUser({
+                variables: {
+                    email: formState.email,
+                    password: formState.password
+                }
+            });
+
+            if (response.data.signIn.token) {
+                localStorage.setItem('token', response.data.signIn.token);
+
+                navigate('/pages/UserDashboardPage');
             } else {
                 console.error('Login succeeded but no token received.');
-                // Optionally handle this case in the UI, e.g., show an error message
             }
-        } catch (e) {
-            console.error('Sign in error:', e);
-            // Error handling can be improved here if needed
+        } catch (error) {
+            console.error('Sign in error:', error);
         }
     };
+
+
 
     const handleChange = (event) => {
         const { name, value } = event.target;

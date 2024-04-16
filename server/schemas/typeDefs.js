@@ -12,7 +12,7 @@ const typeDefs = `
     addCharity(name: String!, description: String, email: String, telephone: String, logo: String, address: String, ein: String, missionStatement: String, website: String, rating: Float): Charity
     addDonation(charityId: ID!, userId: ID!, amount: Float!): Donation
     signupUser(firstName: String!, lastName: String!, email: String!, password: String!, number: String!, street: String!, city: String!, state: String!, zipCode: String!): Auth
-    signIn(email: String!, password: String!): Auth
+    signIn(email: String!, password: String!): AuthPayload
   }
 
   type User {

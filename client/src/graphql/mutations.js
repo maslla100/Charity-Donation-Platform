@@ -101,3 +101,6 @@ export const LOGIN_USER = gql`
     }
   }
 `;
+
+import { gql } from '@apollo/client';
+
