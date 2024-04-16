@@ -84,12 +84,12 @@ const resolvers = {
     signupUser: async (_, { firstName, lastName, email, password, number, street, city, state, zipCode }) => {
       const saltRounds = 10;
       try {
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        //const hashedPassword = await bcrypt.hash(password, saltRounds);
         const newUser = new User({
           firstName,
           lastName,
           email,
-          password: hashedPassword,
+          password,
           address: { number, street, city, state, zipCode }
         });
         await newUser.save();
@@ -108,18 +108,19 @@ const resolvers = {
           throw new AuthenticationError('Incorrect credentials');
         }
 
-        /*const valid = await user.isCorrectPassword(password);
+        const valid = await user.isCorrectPassword(password);
+        console.log(valid)
         if (!valid) {
           console.log(`Expected hash: ${user.password}`);  // Log expected hash
           console.log(`Input hash: ${bcrypt.hashSync(password, bcrypt.getSalt(user.password))}`);  // Log input hash
           throw new AuthenticationError('Incorrect credentials');
-        } */
+        }
 
-        const valid = await bcrypt.compare(password, user.password);
+        /*const valid = await bcrypt.compare(password, user.password);
         console.log("Password comparison result:", valid);  // Check the result of the comparison
         if (!valid) {
           throw new AuthenticationError('Incorrect credentials');
-        }
+        }*/
 
         const token = signToken(user);
         if (!token) {

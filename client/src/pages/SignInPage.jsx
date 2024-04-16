@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/Api';
+import { LOGIN_USER } from '../graphql/mutations';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Container, Paper, Typography, CircularProgress, Alert } from '@mui/material';
 
@@ -18,11 +18,11 @@ const SignInPage = () => {
                 navigate('/');
             } else {
                 console.error('Login succeeded but no token received.');
-
+                // Optionally handle this case in the UI, e.g., show an error message
             }
         } catch (e) {
             console.error('Sign in error:', e);
-
+            // Error handling can be improved here if needed
         }
     };
 
