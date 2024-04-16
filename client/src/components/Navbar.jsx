@@ -7,10 +7,17 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 
 const Navbar = () => {
-    const history = useNavigate();
+    const navigate = useNavigate();
+    const isLoggedIn = Boolean(localStorage.getItem('token'));
 
     const handleNavigate = (path) => {
-        history.push(path);
+        navigate(path);
+    };
+
+    const handleLogoff = () => {
+        localStorage.removeItem('token');
+        navigate('/');
+        window.location.reload();
     };
 
     return (
@@ -26,8 +33,14 @@ const Navbar = () => {
                     <Button color="inherit" onClick={() => handleNavigate('/signuptodonate')}>Donate</Button>
                     <Button color="inherit" onClick={() => handleNavigate('/contact')}>Contact Us</Button>
                     <Button color="inherit" onClick={() => handleNavigate('/joinus')}>Join Us</Button>
-                    <Button color="inherit" onClick={() => handleNavigate('/signin')}>Sign In</Button>
-                    <Button color="inherit" onClick={() => handleNavigate('/donation-history')}>Donation History</Button>
+                    {isLoggedIn ? (
+                        <>
+                            <Button color="inherit" onClick={() => handleNavigate('/donation-history')}>Donation History</Button>
+                            <Button color="inherit" onClick={handleLogoff}>Log Off</Button>
+                        </>
+                    ) : (
+                        <Button color="inherit" onClick={() => handleNavigate('/signin')}>Sign In</Button>
+                    )}
                 </Toolbar>
             </AppBar>
         </>

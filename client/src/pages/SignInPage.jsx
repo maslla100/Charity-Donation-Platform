@@ -1,8 +1,15 @@
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../graphql/mutations';
+import { useNavigate } from 'react-router-dom';
+import { TextField, Button, Container, Paper, Typography, CircularProgress, Alert } from '@mui/material';
+
 const SignInPage = () => {
     const [formState, setFormState] = useState({ email: '', password: '' });
     const [emailError, setEmailError] = useState('');
     const [loginUser, { loading, data, error }] = useMutation(LOGIN_USER);
     const navigate = useNavigate();
+
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -18,16 +25,18 @@ const SignInPage = () => {
                 }
             });
 
-            if (response.data.signIn.token) {
+            if (response.data.signIn.token && response.data.signIn.user._id) {
                 localStorage.setItem('token', response.data.signIn.token);
-                navigate('/pages/UserDashboardPage');
+                localStorage.setItem('userId', response.data.signIn.user._id);
+                navigate('/');
             } else {
-                console.error('Login succeeded but no token received.');
+                console.error('Login succeeded but no token or user ID received.');
             }
         } catch (error) {
             console.error('Sign in error:', error);
         }
     };
+
 
     const validateEmail = (email) => {
         return String(email)

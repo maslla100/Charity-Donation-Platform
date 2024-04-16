@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 export const SEND_FEEDBACK = gql`
   mutation SendFeedback($name: String!, $email: String!, $message: String!) {
     sendFeedback(name: $name, email: $email, message: $message) {
-      id
+      _id
       name
       email
       message
@@ -14,7 +14,7 @@ export const SEND_FEEDBACK = gql`
 export const SEND_INQUIRY = gql`
   mutation SendInquiry($name: String!, $email: String!, $message: String!) {
     sendInquiry(name: $name, email: $email, message: $message) {
-      id
+      _id
       name
       email
       message
@@ -27,7 +27,7 @@ export const ADD_DONATION = gql`
   addDonation(charityId: $charityId, amount: $amount) {
     id
     charity {
-      id
+      _id
       name
     }
     amount

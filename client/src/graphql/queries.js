@@ -46,10 +46,10 @@ query FetchUserDashboard($userId: ID!) {
 export const GET_USER_DONATIONS = gql`
     query GetUserDonations($userId: ID!) {
         getUserDonations(userId: $userId) {
-            id
+            _id
             amount
             charity {
-                id
+                _id
                 name
             }
         }

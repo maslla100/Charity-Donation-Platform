@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, Typography, CardActionArea, CardMedia, Link } from '@mui/material';
+import { Card, CardContent, Typography, CardActionArea, CardMedia, Link, Button } from '@mui/material';
 import '../styles/CharityCard.css';
 
 const CharityCard = ({ charity }) => {
@@ -9,6 +9,12 @@ const CharityCard = ({ charity }) => {
     const handleCardClick = () => {
         navigate(`/charity/${charity._id}`);
     };
+
+    const handleDonateClick = (e) => {
+        e.stopPropagation();
+        navigate(`/donate/${charity._id}`);
+    };
+
     const capitalizeWords = (str) =>
         str
             .toLowerCase()
@@ -21,17 +27,18 @@ const CharityCard = ({ charity }) => {
     };
 
     return (
-        <Card className="charity-card" variant="outlined" onClick={handleCardClick}>
-            <CardActionArea>
+        <Card className="charity-card" variant="outlined">
+            <CardActionArea onClick={handleCardClick}>
                 {charity.logo && <CardMedia
                     component="img"
                     height="140"
                     image={charity.logo}
-                    alt={`Logo of ${charity.name}`}
+                    alt={`Logo of ${capitalizeWords(charity.name)}`}
                 />}
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        {capitalizeWords(charity.name)}                    </Typography>
+                        {capitalizeWords(charity.name)}
+                    </Typography>
                     <Typography variant="body2" color="text.secondary">
                         {charity.description}
                     </Typography>
@@ -49,6 +56,15 @@ const CharityCard = ({ charity }) => {
                     </Link>
                 </CardContent>
             </CardActionArea>
+            <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={handleDonateClick}
+                sx={{ mt: 2 }}
+            >
+                Donate Now
+            </Button>
         </Card>
     );
 };

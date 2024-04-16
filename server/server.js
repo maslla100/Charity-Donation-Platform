@@ -8,6 +8,8 @@ const rateLimit = require('express-rate-limit');
 const { getUserFromToken } = require('./utils/auth');
 const db = require('./config/connection');
 const { typeDefs, resolvers } = require('./schemas/index');
+const { User, Charity, Donation } = require('./models');
+
 
 
 const PORT = process.env.PORT || 4000;
@@ -43,9 +45,13 @@ const server = new ApolloServer({
   resolvers,
   context: async ({ req }) => {
     const token = req.headers.authorization || '';
-    return { user: await getUserFromToken(token) };
+    const user = await getUserFromToken(token);
+    return { user, User, Charity, Donation };
   },
-  formatError: (error) => error,
+  formatError: (error) => {
+    console.error(error);
+    return error;
+  },
 });
 
 async function startServer() {

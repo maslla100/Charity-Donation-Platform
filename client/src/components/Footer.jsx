@@ -28,20 +28,20 @@ const Footer = () => {
                     ))}
                 </Grid>
                 <Grid item sx={{ mt: 2, display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 2 }}>
-                    <IconButton aria-label="Facebook page" color="inherit" href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer">
+                    <IconButton aria-label="Facebook page" color="inherit" href="https://facebook.com/" target="_blank" rel="noopener noreferrer">
                         <FacebookIcon />
                     </IconButton>
-                    <IconButton aria-label="Twitter page" color="inherit" href="https://twitter.com/yourpage" target="_blank" rel="noopener noreferrer">
+                    <IconButton aria-label="Twitter page" color="inherit" href="https://twitter.com/" target="_blank" rel="noopener noreferrer">
                         <TwitterIcon />
                     </IconButton>
-                    <IconButton aria-label="LinkedIn profile" color="inherit" href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
+                    <IconButton aria-label="LinkedIn profile" color="inherit" href="https://www.linkedin.com/in/luisellamas/" target="_blank" rel="noopener noreferrer">
                         <LinkedInIcon />
                     </IconButton>
                 </Grid>
                 <Grid item>
                     <Typography variant="body2" color="textSecondary" align="center">
                         {'© '}
-                        <Link color="inherit" href="https://github.com/yourgithub" target="_blank" rel="noopener noreferrer">
+                        <Link color="inherit" href="https://github.com/maslla100" target="_blank" rel="noopener noreferrer">
                             Designed By:
                         </Link>{' '}
                         {new Date().getFullYear()}
