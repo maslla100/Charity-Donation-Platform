@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 export const GET_CHARITIES = gql`
 query GetCharities {
   charities {
-    id
+    _id
     name
     description
     telephone
@@ -17,7 +17,7 @@ query GetCharities {
     ein
     website
     image
-    mission
+    missionStatement
     rating 
   }
 }
@@ -26,7 +26,7 @@ query GetCharities {
 
 
 
-export const Fetch_User_Dashboard = gql`
+export const FETCH_USER_DASHBOARD = gql`
 query FetchUserDashboard($userId: ID!) {
   user(id: $userId) {
     name
@@ -41,4 +41,17 @@ query FetchUserDashboard($userId: ID!) {
     }
   }
 }
+`;
+
+export const GET_USER_DONATIONS = gql`
+    query GetUserDonations($userId: ID!) {
+        getUserDonations(userId: $userId) {
+            id
+            amount
+            charity {
+                id
+                name
+            }
+        }
+    }
 `;

@@ -10,9 +10,9 @@ import Footer from '../components/Footer';
 import ContactForm from '../components/ContactForm';
 import JoinUsForm from '../components/JoinUsForm';
 import DonationForm from '../components/DonationForm';
-import SignUpToDonate from '../pages/SignUpToDonate';
+import SignUpToDonate from '../pages/SignUptoDonate';
 import UserDashboardPage from '../pages/UserDashboardPage';
-import NotFoundPage from '../pages/NotFoundPage';
+import NotFoundPage from '../pages/NotfoundPage';
 
 function App() {
     return (

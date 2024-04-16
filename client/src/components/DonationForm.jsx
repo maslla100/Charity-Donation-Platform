@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_DONATION } from '../graphql/mutations';
-import { UserContext } from '../context/UserContext'; // Assume you have a context for user data
+//import { UserContext } from '../context/UserContext'; // Assume you have a context for user data
 
 const DonationForm = ({ charityId }) => {
     const [donationAmount, setDonationAmount] = useState('');
-    const { userId } = useContext(UserContext); // Assume there's a context providing user details
+    //  const { userId } = useContext(UserContext); // Assume there's a context providing user details
     const [addDonation, { loading, error }] = useMutation(ADD_DONATION);
 
     const handleSubmit = async (event) => {

@@ -60,6 +60,14 @@ const resolvers = {
         return handleError(error, 'Error fetching users');
       }
     },
+    getUserDonations: async (_, { userId }, { Donation }) => {
+      try {
+        const donations = await Donation.find({ user: userId }).populate('charity');
+        return donations;
+      } catch (error) {
+        throw new Error('Error fetching donations for user: ' + error.message);
+      }
+    },
   },
   Mutation: {
     addCharity: async (_, args) => {

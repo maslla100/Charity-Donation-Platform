@@ -9,8 +9,13 @@ const CharityCard = ({ charity }) => {
     const handleCardClick = () => {
         navigate(`/charity/${charity._id}`);
     };
+    const capitalizeWords = (str) =>
+        str
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
 
-    // Helper function to format address
     const formatAddress = (address) => {
         return `${address.number} ${address.street}, ${address.city}, ${address.state} ${address.zipCode}`;
     };
@@ -26,8 +31,7 @@ const CharityCard = ({ charity }) => {
                 />}
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        {charity.name}
-                    </Typography>
+                        {capitalizeWords(charity.name)}                    </Typography>
                     <Typography variant="body2" color="text.secondary">
                         {charity.description}
                     </Typography>
@@ -41,7 +45,7 @@ const CharityCard = ({ charity }) => {
                         Address: {formatAddress(charity.address)}
                     </Typography>
                     <Link href={charity.website} target="_blank" rel="noopener">
-                        Visit Website
+                        Visit Our Website
                     </Link>
                 </CardContent>
             </CardActionArea>

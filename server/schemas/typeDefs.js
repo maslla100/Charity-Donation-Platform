@@ -2,10 +2,11 @@ const typeDefs = `
 
 type Query {
   charities: [Charity]
-  charity(id: ID!): Charity
+  charity(_id: ID!): Charity
   donations: [Donation]
   donationsByUser(userId: ID!): [Donation]
   users: [User]
+  getUserDonations(userId: ID!): [Donation]
 }
 
 type Mutation {
@@ -22,6 +23,7 @@ type User {
   email: String
   address: Address
   donations: [Donation]
+  name: String # Computed field
 }
 
 type Address {
@@ -41,7 +43,7 @@ type Auth {
 Represents a single charity with related information.
 """
 type Charity {
-  _id: ID
+  _id: ID!
   name: String!
   description: String!
   email: String!
@@ -51,8 +53,9 @@ type Charity {
   ein: String!
   missionStatement: String!
   website: String!
-  rating: Float
+  rating: String
   donations: [Donation]
+  image: String
 }
 
 type Donation {

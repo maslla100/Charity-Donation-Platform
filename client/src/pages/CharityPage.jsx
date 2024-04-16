@@ -34,7 +34,7 @@ const CharityPage = () => {
     return (
         <div>
             <h2>{charity.name}</h2>
-            <p>{charity.mission}</p>
+            <p>{charity.missionStatement}</p>
             <p>Telephone: {charity.telephone}</p>
             <p>Address: <address>{charity.address}</address></p>
             <p>Website: <a href={charity.website} target="_blank" rel="noopener noreferrer">{charity.website}</a></p>

@@ -1,51 +1,80 @@
 const db = require('./config/connection');
 const { Charity } = require('./models');
+const mongoose = require('mongoose');
 
 const charityData = [
   {
-    name: 'Global Health Initiative',
+    name: 'global health initiative',
     description: 'Dedicated to improving global health through innovative and sustainable health care solutions.',
+    email: 'contact@globalhealth.org',
     telephone: '800-123-4567',
-    address: '1502 Health Ave, Global City, GC 98765',
+    logo: '/images/health.webp',
+    address: {
+      number: '1502',
+      street: 'Health Ave',
+      city: 'Global City',
+      state: 'GC',
+      zipCode: '98765'
+    },
     ein: '23-4567890',
+    missionStatement: 'To save lives, reduce disease, and help communities thrive across the globe.',
     website: 'https://globalhealthinitiative.org',
-    image: '/images/health.webp', // Use relative path to image folder served by your server
-    mission: 'To save lives, reduce disease, and help communities thrive across the globe.',
-    rating: 'A',
+    rating: 'A'
   },
   {
-    name: 'Education for All',
+    name: 'education for all',
     description: 'Committed to providing quality education to underprivileged children worldwide.',
+    email: 'support@educationforall.org',
     telephone: '800-234-5678',
-    address: '7202 Education Blvd, Learning Town, LT 87654',
+    logo: '/images/education.webp',
+    address: {
+      number: '7202',
+      street: 'Education Blvd',
+      city: 'Learning Town',
+      state: 'LT',
+      zipCode: '87654'
+    },
     ein: '34-5678901',
+    missionStatement: 'Empowering future generations through education.',
     website: 'https://educationforall.org',
-    image: '/images/education.webp', // Use relative path
-    mission: 'Empowering future generations through education.',
-    rating: 'A+',
+    rating: 'A+'
   },
   {
-    name: 'Clean Water Access',
+    name: 'clean water access',
     description: 'Focusing on providing clean, safe drinking water to communities in need around the world.',
+    email: 'info@cleanwateraccess.org',
     telephone: '800-345-6789',
-    address: '404 Water Way, Aqua City, AC 76543',
+    logo: '/images/cleanwater.webp',
+    address: {
+      number: '404',
+      street: 'Water Way',
+      city: 'Aqua City',
+      state: 'AC',
+      zipCode: '76543'
+    },
     ein: '45-6789012',
+    missionStatement: 'Ensuring every human has access to safe drinking water.',
     website: 'https://cleanwateraccess.org',
-    image: '/images/cleanplanet.webp', // Use relative path
-    mission: 'Ensuring every human has access to safe drinking water.',
-    rating: 'A-',
+    rating: 'A-'
   },
   {
-    name: 'Wildlife Conservation Network',
+    name: 'wildlife conservation network',
     description: 'Protecting endangered species and their natural habitats through global conservation efforts.',
+    email: 'contact@wildlifeconservation.org',
     telephone: '800-456-7890',
-    address: '9085 Forest Ln, Jungle Town, JT 65432',
+    logo: '/images/wildlife.webp',
+    address: {
+      number: '9085',
+      street: 'Forest Ln',
+      city: 'Jungle Town',
+      state: 'JT',
+      zipCode: '65432'
+    },
     ein: '56-7890123',
+    missionStatement: 'To conserve nature and its biodiversity by protecting wildlife and habitats.',
     website: 'https://wildlifeconservationnetwork.org',
-    image: '/images/animal.webp', // Use relative path
-    mission: 'To conserve nature and its biodiversity by protecting wildlife and habitats.',
-    rating: 'B+',
-  },
+    rating: 'B+'
+  }
 ];
 // Function to seed database
 async function seedDatabase() {

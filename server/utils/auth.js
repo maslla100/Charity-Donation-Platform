@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs'); // Require bcrypt only once at the top
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models/User');
