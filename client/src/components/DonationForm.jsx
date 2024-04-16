@@ -1,31 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_DONATION } from '../graphql/mutations';
+import { UserContext } from '../context/UserContext'; // Assume you have a context for user data
 
 const DonationForm = ({ charityId }) => {
     const [donationAmount, setDonationAmount] = useState('');
-    // Use the loading state provided by the useMutation hook to handle loading UI
+    const { userId } = useContext(UserContext); // Assume there's a context providing user details
     const [addDonation, { loading, error }] = useMutation(ADD_DONATION);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        // Validate the donation amount before proceeding
         const amount = parseFloat(donationAmount);
         if (isNaN(amount) || amount <= 0) {
             alert('Please enter a valid donation amount.');
-            return; // Stop the form submission
+            return;
         }
 
         try {
-            const response = await addDonation({ variables: { charityId, amount } });
+            const response = await addDonation({
+                variables: { charityId, amount, userId } // Pass userId along with other variables
+            });
             if (response.data) {
                 alert('Thank you for your donation!');
-                setDonationAmount(''); // Reset the form after successful donation
+                setDonationAmount('');
             }
-        } catch (error) {
-            console.error('Error making a donation:', error.message);
-            // Display a user-friendly error message
+        } catch (err) {
+            console.error('Error making a donation:', err.message);
             alert('Failed to process donation. Please try again.');
         }
     };
@@ -39,10 +39,11 @@ const DonationForm = ({ charityId }) => {
                 type="number"
                 value={donationAmount}
                 onChange={(e) => setDonationAmount(e.target.value)}
+                min="1" // assuming the minimum donation amount is $1
                 required
             />
             <button type="submit" disabled={loading}>Donate</button>
-            {error && <div style={{ color: 'red' }}>An error occurred. Please try again.</div>}
+            {error && <div style={{ color: 'red' }}>An error occurred: {error.message}</div>}
         </form>
     );
 };

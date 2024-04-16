@@ -1,7 +1,5 @@
-// ./Charity-Donation-Platform/client/src/components/Navbar.js
-
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -9,6 +7,12 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 
 const Navbar = () => {
+    const history = useHistory();
+
+    const handleNavigate = (path) => {
+        history.push(path);
+    };
+
     return (
         <>
             <CssBaseline />
@@ -17,27 +21,13 @@ const Navbar = () => {
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>
                         Charity Donation Platform
                     </Typography>
-                    <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <Button color="inherit">Home</Button>
-                    </Link>
-                    <Link to="/about-us" style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <Button color="inherit">About Us</Button>
-                    </Link>
-                    <Link to="/signuptodonate" style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <Button color="inherit">Donate</Button>
-                    </Link>
-                    <Link to="/contact" style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <Button color="inherit">Contact Us</Button>
-                    </Link>
-                    <Link to="/joinus" style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <Button color="inherit">Join Us</Button>
-                    </Link>
-                    <Link to="/signin" style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <Button color="inherit">Sign In</Button>
-                    </Link>
-                    <Link to="/donation-history" style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <Button color="inherit">Donation History</Button>
-                    </Link>
+                    <Button color="inherit" onClick={() => handleNavigate('/')}>Home</Button>
+                    <Button color="inherit" onClick={() => handleNavigate('/about-us')}>About Us</Button>
+                    <Button color="inherit" onClick={() => handleNavigate('/signuptodonate')}>Donate</Button>
+                    <Button color="inherit" onClick={() => handleNavigate('/contact')}>Contact Us</Button>
+                    <Button color="inherit" onClick={() => handleNavigate('/joinus')}>Join Us</Button>
+                    <Button color="inherit" onClick={() => handleNavigate('/signin')}>Sign In</Button>
+                    <Button color="inherit" onClick={() => handleNavigate('/donation-history')}>Donation History</Button>
                 </Toolbar>
             </AppBar>
         </>

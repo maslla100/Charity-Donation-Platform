@@ -13,9 +13,9 @@ const CharityList = () => {
         <Grid container spacing={2}>
             {Array.from(new Array(3)).map((_, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
-                    <Skeleton variant="rectangular" width="100%" height={118} />
-                    <Skeleton variant="text" />
-                    <Skeleton variant="text" />
+                    <Skeleton variant="rectangular" width="100%" height={200} />
+                    <Skeleton variant="text" height={60} />
+                    <Skeleton variant="text" height={60} />
                 </Grid>
             ))}
         </Grid>
@@ -23,12 +23,14 @@ const CharityList = () => {
 
     if (error) return <Alert severity="error">Error loading charities: {error.message}</Alert>;
 
-    if (!data || !data.charities) return <p>No charities found. Check if the database is populated.</p>;
+    if (!data || !data.charities || data.charities.length === 0) return (
+        <Alert severity="info">No charities found. Please check if the database is populated or refresh the page.</Alert>
+    );
 
     return (
         <Grid container spacing={2}>
             {data.charities.map(charity => (
-                <Grid item key={charity.id} xs={12} sm={6} md={4}>
+                <Grid item key={charity._id} xs={12} sm={6} md={4}>
                     <CharityCard charity={charity} />
                 </Grid>
             ))}

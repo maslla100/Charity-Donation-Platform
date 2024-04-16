@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { SEND_FEEDBACK } from '../graphql/mutations';
-import { TextField, Button, Box, Typography } from '@mui/material';
+import { TextField, Button, Box, Typography, Snackbar, Alert } from '@mui/material';
 
 const ContactForm = () => {
     const [formData, setFormData] = useState({
@@ -10,7 +10,8 @@ const ContactForm = () => {
         message: ''
     });
 
-    const [sendFeedback, { data, loading, error }] = useMutation(SEND_FEEDBACK);
+    const [sendFeedback, { loading, error }] = useMutation(SEND_FEEDBACK);
+    const [snackbarInfo, setSnackbarInfo] = useState({ open: false, message: '', severity: 'info' });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -20,8 +21,16 @@ const ContactForm = () => {
         }));
     };
 
+    const validateEmail = (email) => {
+        return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email);
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!validateEmail(formData.email)) {
+            setSnackbarInfo({ open: true, message: 'Please enter a valid email address.', severity: 'error' });
+            return;
+        }
         try {
             await sendFeedback({
                 variables: {
@@ -30,7 +39,7 @@ const ContactForm = () => {
                     message: formData.message
                 }
             });
-            alert('Your message has been sent successfully!');
+            setSnackbarInfo({ open: true, message: 'Your message has been sent successfully!', severity: 'success' });
             setFormData({
                 name: '',
                 email: '',
@@ -38,7 +47,15 @@ const ContactForm = () => {
             });
         } catch (err) {
             console.error('Error sending message:', err);
+            setSnackbarInfo({ open: true, message: 'Error sending message. Please try again.', severity: 'error' });
         }
+    };
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarInfo({ ...snackbarInfo, open: false });
     };
 
     return (
@@ -89,8 +106,11 @@ const ContactForm = () => {
             >
                 Send Message
             </Button>
-            {error && <Typography color="error">Error: {error.message}</Typography>}
-            {data && <Typography color="primary">Message sent successfully!</Typography>}
+            <Snackbar open={snackbarInfo.open} autoHideDuration={6000} onClose={handleSnackbarClose}>
+                <Alert onClose={handleSnackbarClose} severity={snackbarInfo.severity} sx={{ width: '100%' }}>
+                    {snackbarInfo.message}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };

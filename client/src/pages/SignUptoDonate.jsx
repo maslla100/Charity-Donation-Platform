@@ -41,12 +41,19 @@ const SignUptoDonate = () => {
             );
     };
 
+    const validatePassword = (password) => {
+        const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/;
+        return regex.test(password);
+    };
+
     const validateField = (name, value) => {
         let errorMsg = '';
         if (!value) {
             errorMsg = 'This field is required.';
         } else if (name === 'email' && !validateEmail(value)) {
             errorMsg = 'Please enter a valid email address.';
+        } else if (name === 'password' && !validatePassword(value)) {
+            errorMsg = 'Password must include at least one number, one uppercase, one lowercase letter, and one special character.';
         } else if (name === 'confirmPassword' && value !== formData.password) {
             errorMsg = 'Passwords do not match.';
         } else if (name === 'amount' && (isNaN(value) || parseFloat(value) <= 0)) {
@@ -54,6 +61,7 @@ const SignUptoDonate = () => {
         }
         setErrors(prev => ({ ...prev, [name]: errorMsg }));
     };
+
 
     const validateForm = () => {
         let isValid = true;

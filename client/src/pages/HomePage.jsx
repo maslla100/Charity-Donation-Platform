@@ -1,22 +1,22 @@
 import React from 'react';
 import CharityList from '../components/CharityList';
 import { Link } from 'react-router-dom';
+import '../styles/HomePage.css';
 
 const HomePage = () => {
     return (
-        <div>
-            <header style={{ padding: '20px', backgroundColor: '#f0f0f0', textAlign: 'center' }}>
+        <div className="home-container">
+            <header className="home-header">
                 <h1>Welcome to Charity Donation Platform</h1>
                 <p>Connect with causes you care about and make a difference today!</p>
-                <Link to="/signuptodonate" style={{ textDecoration: 'none', color: 'white', backgroundColor: 'blue', padding: '10px 20px', borderRadius: '5px' }}>
+                <Link to="/signuptodonate" className="signup-button">
                     Sign Up to Donate
                 </Link>
             </header>
-            <main style={{ padding: '20px' }}>
+            <main className="main-content">
                 <h2>Featured Charities</h2>
                 <CharityList />
             </main>
-
         </div>
     );
 };

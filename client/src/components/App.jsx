@@ -9,9 +9,10 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ContactForm from '../components/ContactForm';
 import JoinUsForm from '../components/JoinUsForm';
-import DonationForm from '../components/ContactForm';
-import SinguptoDonate from '../pages/SignUptoDonate'
+import DonationForm from '../components/DonationForm';
+import SignUpToDonate from '../pages/SignUpToDonate';
 import UserDashboardPage from '../pages/UserDashboardPage';
+import NotFoundPage from '../pages/NotFoundPage';
 
 function App() {
     return (
@@ -26,8 +27,9 @@ function App() {
                 <Route path="/contact" element={<ContactForm />} />
                 <Route path="/joinus" element={<JoinUsForm />} />
                 <Route path="/donation" element={<DonationForm />} />
-                <Route path="/signuptodonate" element={<SinguptoDonate />} />
-                <Route path="/UserDashboardPage" element={<UserDashboardPage />} />
+                <Route path="/sign-up-to-donate" element={<SignUpToDonate />} />
+                <Route path="/user-dashboard" element={<UserDashboardPage />} />
+                <Route path="*" element={<NotFoundPage />} /> {/* Catch-all route */}
             </Routes>
             <Footer />
         </Router>

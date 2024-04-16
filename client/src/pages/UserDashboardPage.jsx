@@ -14,7 +14,7 @@ const UserDashboardPage = () => {
     return (
         <div>
             <h1>User Dashboard</h1>
-            <h2>Welcome, {data.user.name}</h2>
+            <h2>Welcome, {data.user.firstName} {data.user.lastName}</h2>
             <div>
                 <h3>Charities You Follow</h3>
                 {data.user.charities.map((charity) => (

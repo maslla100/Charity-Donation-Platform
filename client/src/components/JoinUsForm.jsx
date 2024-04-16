@@ -17,6 +17,7 @@ const JoinUsForm = () => {
         city: '',
         state: '',
         zipCode: '',
+        country: '' // Optional field, I should take it out!
     });
     const [errors, setErrors] = useState({});
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -25,25 +26,29 @@ const JoinUsForm = () => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData(prev => {
-            const updatedFormData = { ...prev, [name]: value };
-            if (name === 'password' || name === 'confirmPassword') {
-                if (updatedFormData.password !== updatedFormData.confirmPassword) {
-                    setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Passwords do not match' }));
-                } else {
-                    setErrors(prevErrors => ({ ...prevErrors, confirmPassword: '' }));
-                }
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+        if (name === 'password' || name === 'confirmPassword') {
+            if (formData.password !== formData.confirmPassword) {
+                setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Passwords do not match' }));
+            } else {
+                setErrors(prevErrors => ({ ...prevErrors, confirmPassword: '' }));
             }
-            return updatedFormData;
-        });
+        }
     };
 
     const validateEmail = (email) => {
         return String(email)
             .toLowerCase()
             .match(
-                /^(([^<>()\[\]\\.,;:\s@\"]+(\.[^<>()\[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                /^(\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+)$/
             );
+    };
+
+    const validatePassword = (password) => {
+        return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/.test(password);
     };
 
     const validateForm = () => {
@@ -65,6 +70,11 @@ const JoinUsForm = () => {
             setOpenSnackbar(true);
             return false;
         }
+        if (!validatePassword(formData.password)) {
+            setSnackbarMessage('Password does not meet complexity requirements.');
+            setOpenSnackbar(true);
+            return false;
+        }
         return true;
     };
 
@@ -72,9 +82,21 @@ const JoinUsForm = () => {
         event.preventDefault();
         if (!validateForm()) return;
 
+        const signupData = {
+            ...formData,
+            address: {
+                number: formData.number,
+                street: formData.street,
+                city: formData.city,
+                state: formData.state,
+                zipCode: formData.zipCode,
+                country: formData.country || undefined // Include only if provided
+            },
+        };
+
         try {
             const response = await signupUser({
-                variables: { ...formData },
+                variables: { ...signupData },
             });
             setSnackbarMessage('Account created successfully! Please log in.');
             setOpenSnackbar(true);
@@ -89,10 +111,11 @@ const JoinUsForm = () => {
                 city: '',
                 state: '',
                 zipCode: '',
+                country: ''
             });
         } catch (err) {
-            console.error('Error during sign up:', err);
-            setSnackbarMessage(err.message || 'Failed to create account.');
+            const message = err.graphQLErrors?.[0]?.message || 'Failed to create account.';
+            setSnackbarMessage(message);
             setOpenSnackbar(true);
         }
     };
@@ -117,11 +140,11 @@ const JoinUsForm = () => {
                 />
             ))}
             <Typography variant="h6" sx={{ mt: 2 }}>Address</Typography>
-            {['number', 'street', 'city', 'zipCode'].map(field => (
+            {['number', 'street', 'city', 'zipCode', 'country'].map(field => (
                 <TextField
                     key={field}
                     margin="normal"
-                    required
+                    required={field !== 'country'} // Country is optional
                     fullWidth
                     id={field}
                     label={field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1')}

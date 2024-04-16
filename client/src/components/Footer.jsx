@@ -10,46 +10,38 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 const Footer = () => {
     return (
-        <footer style={{ backgroundColor: '#333', color: 'white', padding: '48px', textAlign: 'center' }}>
+        <footer sx={{ backgroundColor: '#333', color: 'white', p: 6, textAlign: 'center' }}>
             <Grid container direction="column" alignItems="center" spacing={2}>
                 <Grid item>
                     <Typography variant="h6" gutterBottom>
                         Charity Donation Platform
                     </Typography>
-                    <Typography variant="subtitle1" color="textSecondary" component="p">
+                    <Typography variant="subtitle1" color="textSecondary">
                         Making a difference with every donation.
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <RouterLink to="/" style={{ color: 'white', marginRight: '15px' }}>Home</RouterLink>
-                    <RouterLink to="/about-us" style={{ color: 'white', marginRight: '15px' }}>About Us</RouterLink>
-                    <RouterLink to="/signuptodonate" style={{ color: 'white', marginRight: '15px' }}>Donate</RouterLink>
-                    <RouterLink to="/contact" style={{ color: 'white', marginRight: '15px' }}>Contact Us</RouterLink>
-                    <RouterLink to="/joinus" style={{ color: 'white', marginRight: '15px' }}>Join Us</RouterLink>
-                    <RouterLink to="/donation-history" style={{ color: 'white' }}>Donation History</RouterLink>
+                    {['/', '/about-us', '/signuptodonate', '/contact', '/joinus', '/donation-history'].map((path, index) => (
+                        <Link component={RouterLink} to={path} key={index} sx={{ color: 'inherit', mr: index < 5 ? 2 : 0 }}>
+                            {path.slice(1) || 'Home'}
+                        </Link>
+                    ))}
                 </Grid>
-                <Grid item sx={{
-                    marginTop: 2,
-                    marginBottom: 2,
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    gap: 2
-                }}>
-                    <IconButton aria-label="facebook" color="inherit" href="https://facebook.com/yourpage">
+                <Grid item sx={{ mt: 2, display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 2 }}>
+                    <IconButton aria-label="Facebook page" color="inherit" href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer">
                         <FacebookIcon />
                     </IconButton>
-                    <IconButton aria-label="Twitter" color="inherit" href="https://twitter.com/yourpage">
+                    <IconButton aria-label="Twitter page" color="inherit" href="https://twitter.com/yourpage" target="_blank" rel="noopener noreferrer">
                         <TwitterIcon />
                     </IconButton>
-                    <IconButton aria-label="LinkedIn" color="inherit" href="https://www.linkedin.com/in/luisellamas/">
+                    <IconButton aria-label="LinkedIn profile" color="inherit" href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
                         <LinkedInIcon />
                     </IconButton>
                 </Grid>
                 <Grid item>
                     <Typography variant="body2" color="textSecondary" align="center">
                         {'© '}
-                        <Link color="inherit" href="https://github.com/maslla100">
+                        <Link color="inherit" href="https://github.com/yourgithub" target="_blank" rel="noopener noreferrer">
                             Designed By:
                         </Link>{' '}
                         {new Date().getFullYear()}

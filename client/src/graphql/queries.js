@@ -1,17 +1,19 @@
 import { gql } from '@apollo/client';
 
 export const GET_CHARITIES = gql`
-
-
-
-
- query GetCharities {
+query GetCharities {
   charities {
     id
     name
     description
     telephone
-    address
+    address {
+      number
+      street
+      city
+      state
+      zipCode
+    }
     ein
     website
     image
@@ -19,24 +21,24 @@ export const GET_CHARITIES = gql`
     rating 
   }
 }
+
 `;
 
 
-import { gql } from '@apollo/client';
 
-export const FETCH_USER_DASHBOARD = gql`
-  query FetchUserDashboard($userId: ID!) {
-    user(id: $userId) {
-      name
-      email
-      donations {
-        charity {
-          name
-          description
-        }
-        amount
-        date
+export const Fetch_User_Dashboard = gql`
+query FetchUserDashboard($userId: ID!) {
+  user(id: $userId) {
+    name
+    email
+    donations {
+      charity {
+        name
+        description
       }
+      amount
+      date
     }
   }
+}
 `;

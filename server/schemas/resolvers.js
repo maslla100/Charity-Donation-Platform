@@ -84,7 +84,6 @@ const resolvers = {
     signupUser: async (_, { firstName, lastName, email, password, number, street, city, state, zipCode }) => {
       const saltRounds = 10;
       try {
-        //const hashedPassword = await bcrypt.hash(password, saltRounds);
         const newUser = new User({
           firstName,
           lastName,
@@ -133,10 +132,14 @@ const resolvers = {
         throw new ApolloError('Error signing in user', { error: error.message });
       }
     },
-
-
-
   },
+
+  User: {
+    name: (parent) => {
+      return `${parent.firstName} ${parent.lastName}`;
+    },
+  },
+
 };
 
 

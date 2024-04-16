@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from '@apollo/client';
-import { ThemeProvider } from '@mui/material/styles'; // Updated import for ThemeProvider
-import CssBaseline from '@mui/material/CssBaseline'; // Updated import for CssBaseline
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import App from './components/App.jsx';
 import client from './utils/apolloClient';
 import theme from './theme';

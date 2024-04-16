@@ -65,10 +65,10 @@ const charitySchema = new Schema({
   ],
 }, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
-// Optional: Virtual for formatted address
+/* Optional: Virtual for formatted address
 charitySchema.virtual('formattedAddress').get(function () {
   return `${this.address.number} ${this.address.street}, ${this.address.city}, ${this.address.state} ${this.address.zipCode}`;
-});
+});*/
 
 const Charity = mongoose.model('Charity', charitySchema);
 
