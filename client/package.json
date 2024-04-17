@@ -27,7 +27,8 @@
     "react-scripts": "^5.0.1",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.5",
-    "svgo": "^3.2.0"
+    "svgo": "^3.2.0",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.16.7"
