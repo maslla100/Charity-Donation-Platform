@@ -14,13 +14,8 @@ type Mutation {
   addDonation(charityId: ID!, userId: ID!, amount: Float!): Donation    
   signupUser(firstName: String!, lastName: String!, email: String!, password: String!, number: String!, street: String!, city: String!, state: String!, zipCode: String!): Auth
   signIn(email: String!, password: String!): AuthPayload
-  sendFeedback(name: String!, email: String!, message: String!): FeedbackResponse
-}
+  sendFeedback(input: FeedbackInput!): FeedbackResponse
 
-type FeedbackResponse {
-  success: Boolean!
-  message: String!
-  feedback: Feedback
 }
 
 type Feedback {
@@ -30,6 +25,22 @@ type Feedback {
   message: String!
   createdAt: String!
 }
+
+input FeedbackInput {
+  name: String!
+  email: String!
+  message: String!
+}
+
+type FeedbackResponse {
+  _id: ID
+  name: String
+  email: String
+  success: Boolean!
+  message: String!
+  feedback: Feedback
+}
+
 
 
 type User {
@@ -79,6 +90,7 @@ type Donation {
   amount: Float!
   charity: Charity!
   user: User!
+  createdAt: String
 }
 
 type AuthPayload {

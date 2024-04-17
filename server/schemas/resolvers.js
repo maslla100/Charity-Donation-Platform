@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { User, Charity, Donation } = require('../models');
+const { User, Charity, Donation, Feedback } = require('../models');
 const { signToken } = require('../utils/auth');
 const { ApolloError } = require('apollo-server-express');
 const { AuthenticationError } = require('apollo-server-express');
@@ -71,19 +71,21 @@ const resolvers = {
   },
 
   Mutation: {
-    sendFeedback: async (_, { name, email, message }) => {
+    sendFeedback: async (_, { input }) => {
       try {
         const newFeedback = new Feedback({
-          name,
-          email,
-          message
+          name: input.name,
+          email: input.email,
+          message: input.message
         });
         await newFeedback.save();
-
         return {
+          _id: newFeedback._id,
+          name: newFeedback.name,
+          email: newFeedback.email,
           success: true,
           message: "Thank you for your feedback!",
-          feedback: newFeedback  // Only include this if you defined it to return in FeedbackResponse
+          feedback: newFeedback
         };
       } catch (error) {
         console.error("Error saving feedback:", error);
@@ -131,39 +133,27 @@ const resolvers = {
     },
 
 
+
     signIn: async (_, { email, password }) => {
       try {
         const user = await User.findOne({ email });
         if (!user) {
-          console.log(`No user found with email: ${email}`);
-          throw new AuthenticationError('Incorrect credentials');
+          throw new AuthenticationError('No user found with this email address');
         }
 
-        const valid = await user.isCorrectPassword(password);
-        console.log(valid)
-        if (!valid) {
-          console.log(`Expected hash: ${user.password}`);  // Log expected hash
-          console.log(`Input hash: ${bcrypt.hashSync(password, bcrypt.getSalt(user.password))}`);  // Log input hash
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        if (!isValidPassword) {
           throw new AuthenticationError('Incorrect credentials');
         }
-
-        /*const valid = await bcrypt.compare(password, user.password);
-        console.log("Password comparison result:", valid);  // Check the result of the comparison
-        if (!valid) {
-          throw new AuthenticationError('Incorrect credentials');
-        }*/
 
         const token = signToken(user);
-        if (!token) {
-          console.log(`Token generation failed for user: ${email}`);
-          throw new ApolloError('Error signing in user');
-        }
         return { token, user };
       } catch (error) {
         console.error('SignIn error:', error);
         throw new ApolloError('Error signing in user', { error: error.message });
       }
     },
+
   },
 
   User: {

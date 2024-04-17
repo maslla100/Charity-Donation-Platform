@@ -52,6 +52,7 @@ export const GET_USER_DONATIONS = gql`
                 _id
                 name
             }
+            createdAt  
         }
     }
 `;

@@ -74,7 +74,44 @@ const charityData = [
     missionStatement: 'To conserve nature and its biodiversity by protecting wildlife and habitats.',
     website: 'https://wildlifeconservationnetwork.org',
     rating: 'B+'
-  }
+  },
+  {
+    name: 'reforestation efforts worldwide',
+    description: 'Focused on combating climate change and restoring biodiversity by planting trees worldwide.',
+    email: 'info@reforestworld.org',
+    telephone: '800-678-1234',
+    logo: '/images/reforestation.webp',
+    address: {
+      number: '402',
+      street: 'Greenway Dr',
+      city: 'Forest City',
+      state: 'FC',
+      zipCode: '12345'
+    },
+    ein: '76-5432109',
+    missionStatement: 'Planting trees to foster ecosystems, enhance biodiversity, and combat climate change.',
+    website: 'https://reforestationefforts.org',
+    rating: 'A'
+  },
+  {
+    name: 'tech for tomorrow',
+    description: 'Empowering under-resourced communities by providing access to technology, training, and career opportunities in the tech industry.',
+    email: 'support@techfortomorrow.org',
+    telephone: '800-987-6543',
+    logo: '/images/tech.webp',
+    address: {
+      number: '3201',
+      street: 'Innovation Blvd',
+      city: 'Techville',
+      state: 'TV',
+      zipCode: '67890'
+    },
+    ein: '88-1234567',
+    missionStatement: 'Bridging the digital divide by equipping the next generation with technology and skills for a better future.',
+    website: 'https://techfortomorrow.org',
+    rating: 'A+'
+  },
+
 ];
 // Function to seed database
 async function seedDatabase() {

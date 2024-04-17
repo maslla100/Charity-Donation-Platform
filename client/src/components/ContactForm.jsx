@@ -4,6 +4,7 @@ import { SEND_FEEDBACK } from '../graphql/mutations';
 import { TextField, Button, Box, Typography, Snackbar, Alert } from '@mui/material';
 
 
+
 const ContactForm = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -50,7 +51,7 @@ const ContactForm = () => {
             setSnackbarInfo({ open: true, message: 'Please enter a valid email address.', severity: 'error' });
             return;
         }
-        sendFeedback({ variables: formData });
+        sendFeedback({ variables: { input: formData } });
     };
 
     const handleSnackbarClose = (event, reason) => {

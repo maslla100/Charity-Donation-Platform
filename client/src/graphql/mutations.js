@@ -1,20 +1,28 @@
 import { gql } from '@apollo/client';
 
 export const SEND_FEEDBACK = gql`
-  mutation SendFeedback($name: String!, $email: String!, $message: String!) {
-    sendFeedback(name: $name, email: $email, message: $message) {
+  mutation SendFeedback($input: FeedbackInput!) {
+    sendFeedback(input: $input) {
       _id
       name
       email
+      success
       message
+      feedback {
+        _id
+        name
+        email
+        message
+      }
     }
   }
 `;
+
 
 
 export const SEND_INQUIRY = gql`
-  mutation SendInquiry($name: String!, $email: String!, $message: String!) {
-    sendInquiry(name: $name, email: $email, message: $message) {
+  mutation SendInquiry($input: InquiryInput!) {
+    sendInquiry(input: $input) {
       _id
       name
       email
@@ -22,6 +30,9 @@ export const SEND_INQUIRY = gql`
     }
   }
 `;
+
+
+
 
 export const ADD_DONATION = gql`
   mutation AddDonation($charityId: ID!, $amount: Float!, $userId: ID!) {

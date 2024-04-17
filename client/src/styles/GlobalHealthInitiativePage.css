@@ -1,0 +1,9 @@
+.charity-card img {
+    object-fit: cover;
+    /* Ensures that images are well-fitted into the card */
+}
+
+.charity-card {
+    margin-bottom: 20px;
+    /* Adds space between cards */
+}
