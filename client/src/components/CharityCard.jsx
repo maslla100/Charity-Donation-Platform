@@ -7,7 +7,7 @@ const CharityCard = ({ charity }) => {
     let navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate(`/charities/${charity._id}`);
+        navigate(`/donation`);
     };
 
     const handleDonateClick = (e) => {
@@ -53,7 +53,7 @@ const CharityCard = ({ charity }) => {
                         <strong>EIN:</strong> {charity.ein}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                        <strong>Website:</strong> <Link href={charity.website} target="_blank">{charity.website}</Link>
+                        <strong>Website:</strong> <Link href='/donation' target="_blank">{charity.website}</Link>
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
                         <strong>Rating:</strong> {charity.rating}
@@ -68,7 +68,7 @@ const CharityCard = ({ charity }) => {
                 sx={{ mt: 1, color: 'white' }}
             >
                 <Link
-                    href={charity.website}
+                    href='/donation'
                     target="_blank"
                     rel="noopener"
                     color="inherit"
