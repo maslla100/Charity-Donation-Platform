@@ -121,8 +121,7 @@ const JoinUsForm = () => {
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3, mb: 2 }}>
-            <Typography variant="h6">Personal Information</Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: -15, p: 16, boxShadow: 3, borderRadius: 2 }}>            <Typography variant="h6">Personal Information</Typography>
             {['firstName', 'lastName', 'email', 'password', 'confirmPassword'].map(field => (
                 <TextField
                     key={field}

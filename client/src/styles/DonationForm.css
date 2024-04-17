@@ -1,0 +1,42 @@
+.donation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* Adjust spacing between elements */
+    width: 100%;
+    max-width: 500px;
+    /* Set a max-width for the form */
+    margin: auto;
+    /* Center the form horizontally */
+}
+
+.charity-dropdown,
+.card-element,
+.donation-input {
+    margin-bottom: 10px;
+}
+
+.card-element {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.donation-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    cursor: pointer;
+    background-color: #4CAF50;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}

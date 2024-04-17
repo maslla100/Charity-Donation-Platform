@@ -30,7 +30,7 @@ const Navbar = () => {
                     </Typography>
                     <Button color="inherit" onClick={() => handleNavigate('/')}>Home</Button>
                     <Button color="inherit" onClick={() => handleNavigate('/about-us')}>About Us</Button>
-                    <Button color="inherit" onClick={() => handleNavigate('/signuptodonate')}>Donate</Button>
+                    <Button color="inherit" onClick={() => handleNavigate('/donation')}>Donate</Button>
                     <Button color="inherit" onClick={() => handleNavigate('/contact')}>Contact Us</Button>
                     <Button color="inherit" onClick={() => handleNavigate('/joinus')}>Join Us</Button>
                     {isLoggedIn ? (

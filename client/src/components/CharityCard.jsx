@@ -7,12 +7,12 @@ const CharityCard = ({ charity }) => {
     let navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate(`/charity/${charity._id}`);
+        navigate(`/donation`);
     };
 
     const handleDonateClick = (e) => {
         e.stopPropagation();
-        navigate(`/donate/${charity._id}`);
+        navigate(`/donation`);
     };
 
     const capitalizeWords = (str) =>
@@ -51,9 +51,7 @@ const CharityCard = ({ charity }) => {
                     <Typography variant="caption" display="block" gutterBottom>
                         Address: {formatAddress(charity.address)}
                     </Typography>
-                    <Link href={charity.website} target="_blank" rel="noopener">
-                        Visit Our Website
-                    </Link>
+
                 </CardContent>
             </CardActionArea>
             <Button

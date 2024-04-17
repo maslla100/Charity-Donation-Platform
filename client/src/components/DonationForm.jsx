@@ -1,15 +1,44 @@
-import React, { useState, useContext } from 'react';
-import { useMutation } from '@apollo/client';
+import React, { useState } from 'react';
+import { useQuery, useMutation } from '@apollo/client';
 import { ADD_DONATION } from '../graphql/mutations';
-//import { UserContext } from '../context/UserContext'; // Assume you have a context for user data
+import { CardElement, useStripe, useElements, Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { Dropdown } from 'semantic-ui-react';
+import { GET_CHARITIES } from '../graphql/queries';
+import '../styles/DonationForm.css';
 
-const DonationForm = ({ charityId }) => {
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+
+const DonationForm = () => {
     const [donationAmount, setDonationAmount] = useState('');
-    //  const { userId } = useContext(UserContext); // Assume there's a context providing user details
-    const [addDonation, { loading, error }] = useMutation(ADD_DONATION);
+    const [selectedCharity, setSelectedCharity] = useState('');
+    const { loading: loadingCharities, data: charitiesData, error: charitiesError } = useQuery(GET_CHARITIES);
+    const [addDonation, { loading: loadingDonation, error: donationError }] = useMutation(ADD_DONATION);
+
+    const stripe = useStripe();
+    const elements = useElements();
+
+    const capitalizeText = (text) => text.replace(/\b\w/g, char => char.toUpperCase());
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!stripe || !elements) {
+            console.error('Stripe has not loaded');
+            return;
+        }
+
+        const cardElement = elements.getElement(CardElement);
+        const { error: stripeError, paymentMethod } = await stripe.createPaymentMethod({
+            type: 'card',
+            card: cardElement,
+        });
+
+        if (stripeError) {
+            console.error('Stripe error:', stripeError);
+            alert(stripeError.message);
+            return;
+        }
+
         const amount = parseFloat(donationAmount);
         if (isNaN(amount) || amount <= 0) {
             alert('Please enter a valid donation amount.');
@@ -18,7 +47,7 @@ const DonationForm = ({ charityId }) => {
 
         try {
             const response = await addDonation({
-                variables: { charityId, amount, userId } // Pass userId along with other variables
+                variables: { charityId: selectedCharity, amount, paymentMethodId: paymentMethod.id }
             });
             if (response.data) {
                 alert('Thank you for your donation!');
@@ -31,20 +60,36 @@ const DonationForm = ({ charityId }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h3>Make a Donation</h3>
-            <label htmlFor="donationAmount">Donation Amount:</label>
-            <input
-                id="donationAmount"
-                type="number"
-                value={donationAmount}
-                onChange={(e) => setDonationAmount(e.target.value)}
-                min="1" // assuming the minimum donation amount is $1
-                required
-            />
-            <button type="submit" disabled={loading}>Donate</button>
-            {error && <div style={{ color: 'red' }}>An error occurred: {error.message}</div>}
-        </form>
+        <Elements stripe={stripePromise}>
+            <form onSubmit={handleSubmit} className="donation-form">
+                <h3>Make a Donation</h3>
+                <Dropdown
+                    placeholder='Select Charity'
+                    fluid
+                    selection
+                    className="charity-dropdown"
+                    loading={loadingCharities}
+                    options={charitiesData?.charities.map(charity => ({
+                        key: charity._id,
+                        text: capitalizeText(charity.name),
+                        value: charity._id
+                    }))}
+                    onChange={(_, { value }) => setSelectedCharity(value)}
+                />
+                <CardElement className="card-element" />
+                <input
+                    type="number"
+                    value={donationAmount}
+                    className="donation-input"
+                    onChange={(e) => setDonationAmount(e.target.value)}
+                    placeholder="Donation Amount"
+                    min="1"
+                    required
+                />
+                <button type="submit" disabled={loadingDonation || !stripe}>Donate</button>
+                {donationError && <div style={{ color: 'red' }}>An error occurred: {donationError.message}</div>}
+            </form>
+        </Elements>
     );
 };
 

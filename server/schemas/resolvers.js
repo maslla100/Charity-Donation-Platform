@@ -69,7 +69,31 @@ const resolvers = {
       }
     },
   },
+
   Mutation: {
+    sendFeedback: async (_, { name, email, message }) => {
+      try {
+        const newFeedback = new Feedback({
+          name,
+          email,
+          message
+        });
+        await newFeedback.save();
+
+        return {
+          success: true,
+          message: "Thank you for your feedback!",
+          feedback: newFeedback  // Only include this if you defined it to return in FeedbackResponse
+        };
+      } catch (error) {
+        console.error("Error saving feedback:", error);
+        return {
+          success: false,
+          message: "An error occurred while submitting your feedback. Please try again."
+        };
+      }
+    },
+
     addCharity: async (_, args) => {
       try {
         const newCharity = await Charity.create(args);

@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client';
 import { SEND_FEEDBACK } from '../graphql/mutations';
 import { TextField, Button, Box, Typography, Snackbar, Alert } from '@mui/material';
 
+
 const ContactForm = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -10,15 +11,33 @@ const ContactForm = () => {
         message: ''
     });
 
-    const [sendFeedback, { loading, error }] = useMutation(SEND_FEEDBACK);
+    const [sendFeedback, { loading, error }] = useMutation(SEND_FEEDBACK, {
+        onCompleted: (data) => {
+            // Handle the response based on the success flag
+            const severity = data.sendFeedback.success ? 'success' : 'error';
+            setSnackbarInfo({
+                open: true,
+                message: data.sendFeedback.message,
+                severity: severity
+            });
+            if (data.sendFeedback.success) {
+                setFormData({ name: '', email: '', message: '' }); // Clear form only on success
+            }
+        },
+        onError: (error) => {
+            setSnackbarInfo({
+                open: true,
+                message: error.message || 'Error sending message. Please try again.',
+                severity: 'error'
+            });
+        }
+    });
+
     const [snackbarInfo, setSnackbarInfo] = useState({ open: false, message: '', severity: 'info' });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const validateEmail = (email) => {
@@ -31,35 +50,16 @@ const ContactForm = () => {
             setSnackbarInfo({ open: true, message: 'Please enter a valid email address.', severity: 'error' });
             return;
         }
-        try {
-            await sendFeedback({
-                variables: {
-                    name: formData.name,
-                    email: formData.email,
-                    message: formData.message
-                }
-            });
-            setSnackbarInfo({ open: true, message: 'Your message has been sent successfully!', severity: 'success' });
-            setFormData({
-                name: '',
-                email: '',
-                message: ''
-            });
-        } catch (err) {
-            console.error('Error sending message:', err);
-            setSnackbarInfo({ open: true, message: 'Error sending message. Please try again.', severity: 'error' });
-        }
+        sendFeedback({ variables: formData });
     };
 
     const handleSnackbarClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+        if (reason === 'clickaway') return;
         setSnackbarInfo({ ...snackbarInfo, open: false });
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: -15, padding: 16, boxShadow: 3, borderRadius: 2 }}>
             <Typography variant="h6">Contact Us</Typography>
             <TextField
                 margin="normal"
@@ -101,7 +101,7 @@ const ContactForm = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                color="primary"
                 disabled={loading}
             >
                 Send Message
@@ -116,3 +116,15 @@ const ContactForm = () => {
 };
 
 export default ContactForm;
+
+
+
+
+
+
+
+
+
+
+
+

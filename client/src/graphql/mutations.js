@@ -11,6 +11,7 @@ export const SEND_FEEDBACK = gql`
   }
 `;
 
+
 export const SEND_INQUIRY = gql`
   mutation SendInquiry($name: String!, $email: String!, $message: String!) {
     sendInquiry(name: $name, email: $email, message: $message) {
@@ -23,16 +24,16 @@ export const SEND_INQUIRY = gql`
 `;
 
 export const ADD_DONATION = gql`
- mutation AddDonation($charityId: ID!, $amount: Float!) {
-  addDonation(charityId: $charityId, amount: $amount) {
-    id
-    charity {
-      _id
-      name
+  mutation AddDonation($charityId: ID!, $amount: Float!, $userId: ID!) {
+    addDonation(charityId: $charityId, amount: $amount, userId: $userId) {
+      id
+      amount
+      charity {
+        id
+        name
+      }
     }
-    amount
   }
-}
 `;
 
 export const SIGNUP_AND_DONATE = gql`

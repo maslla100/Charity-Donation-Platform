@@ -11,6 +11,8 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
+    "@stripe/react-stripe-js": "^2.7.0",
+    "@stripe/stripe-js": "^3.3.0",
     "bcryptjs": "^2.4.3",
     "cross-fetch": "^4.0.0",
     "graphql": "^15.8.0",
@@ -18,8 +20,11 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
+    "react-helmet-async": "^2.0.4",
     "react-router-dom": "^6.22.3",
     "react-scripts": "^5.0.1",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5",
     "svgo": "^3.2.0"
   },
   "devDependencies": {

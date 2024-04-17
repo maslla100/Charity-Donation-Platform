@@ -13,6 +13,11 @@ import DonationForm from '../components/DonationForm';
 import SignUpToDonate from '../pages/SignUptoDonate';
 import UserDashboardPage from '../pages/UserDashboardPage';
 import NotFoundPage from '../pages/NotfoundPage';
+import { loadStripe } from '@stripe/stripe-js';
+
+
+const stripePromise = loadStripe('your_stripe_publishable_key_here');
+
 
 function App() {
     return (

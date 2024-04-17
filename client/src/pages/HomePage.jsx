@@ -9,8 +9,8 @@ const HomePage = () => {
             <header className="home-header">
                 <h1>Welcome to Charity Donation Platform</h1>
                 <p>Connect with causes you care about and make a difference today!</p>
-                <Link to="/signuptodonate" className="signup-button">
-                    Sign Up to Donate
+                <Link to="/donation" className="signup-button">
+                    Donate
                 </Link>
             </header>
             <main className="main-content">

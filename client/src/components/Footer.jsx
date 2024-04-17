@@ -21,7 +21,7 @@ const Footer = () => {
                     </Typography>
                 </Grid>
                 <Grid item>
-                    {['/', '/about-us', '/signuptodonate', '/contact', '/joinus', '/donation-history'].map((path, index) => (
+                    {['/', '/about-us', '/donation', '/contact', '/joinus', '/donation-history'].map((path, index) => (
                         <Link component={RouterLink} to={path} key={index} sx={{ color: 'inherit', mr: index < 5 ? 2 : 0 }}>
                             {path.slice(1) || 'Home'}
                         </Link>
