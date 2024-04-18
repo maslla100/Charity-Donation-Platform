@@ -8,7 +8,7 @@
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && client && npm run dev",
     "install": "npm install && (cd client && npm install) && (cd server && npm install)",
     "build": "cd client && npm run build",
-    "rended-build": "npm install && npm run build"
+    "render-build": "npm install && npm run build"
   },
   "repository": {
     "type": "git",

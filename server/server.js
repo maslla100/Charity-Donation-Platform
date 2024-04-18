@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config()
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
@@ -39,6 +39,7 @@ app.use('/images', express.static(path.join(__dirname, '../client/src/images'), 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
+
 
 const server = new ApolloServer({
   typeDefs,
