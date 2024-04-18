@@ -87,6 +87,8 @@ npm start
 
 Your app should now be running on <http://localhost:3000>.
 
+
+
 ## Deployment
 
 This app is set up for deployment using Render. Follow the instructions provided in the Render documentation to deploy your MERN stack application.
@@ -111,4 +113,9 @@ luis.llamas@maslla.com
 
 Project Link: [https://github.com/maslla100/Charity-Donation-Platform](https://github.com/your-username/Charity-Donation-Platform)
 
-Live URL will be up for two to three weeks after last commit is made.  https://charity-donation-platform-fr79.onrender.com
+Live URL will be up for two to three weeks after last commit is made.  https://charity-donation-platform-l9s2.onrender.com/
+
+
+The following image shows the web application's appearance and functionality:
+
+![The Charity Donation Platform shows the following image".](sample.jpeg)
