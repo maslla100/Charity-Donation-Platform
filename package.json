@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "Charity Org",
   "scripts": {
-    "build": "npm run install-all && npm run build-client-server",
-    "build-client-server": "cd client && npm run build && cd ../server && npm run build"
+    "start": "concurrently \"npm run start --prefix server\" \"npm run start --prefix client\"",
+    "install-all": "npm install && (cd client && npm install) && (cd server && npm install)",
+    "build": "cd client && npm run build",
+    "seed": "cd server && npm run seed"
   },
   "repository": {
     "type": "git",
