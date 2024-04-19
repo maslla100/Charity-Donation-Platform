@@ -1,9 +1,0 @@
-Attempting to connect to MongoDB at URI: mongodb+srv://tweetwee:u6KlglgY23RUV8rL@atlascluster.2r9sthp.mongodb.net/charity?retryWrites=true&w=majority
-MongoDB Connected successfully.
-Donation of $20 made to global health initiative at Wed Apr 17 2024 13:28:21 GMT-0500 (Central Daylight Time)
-Donation of $30 made to education for all at Wed Apr 17 2024 13:28:21 GMT-0500 (Central Daylight Time)
-Donation of $15 made to clean water access at Wed Apr 17 2024 13:28:21 GMT-0500 (Central Daylight Time)
-Donation of $50 made to wildlife conservation network at Wed Apr 17 2024 13:28:21 GMT-0500 (Central Daylight Time)
-Donation of $25 made to reforestation efforts worldwide at Wed Apr 17 2024 13:28:21 GMT-0500 (Central Daylight Time)
-Donation of $45 made to tech for tomorrow at Wed Apr 17 2024 13:28:21 GMT-0500 (Central Daylight Time)
-Seeding donations for Luis Llamas complete
