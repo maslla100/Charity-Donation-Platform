@@ -8,8 +8,7 @@ const rateLimit = require('express-rate-limit');
 const { getUserFromToken } = require('./utils/auth');
 const db = require('./config/connection');
 const { typeDefs, resolvers } = require('./schemas/index');
-const { User, Donation, Feedback } = require('./models');
-const Charity = require('./models/Charity');
+const { User, Donation, Feedback, Charity } = require('./models/index');
 
 
 
