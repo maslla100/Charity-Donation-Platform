@@ -89,10 +89,35 @@ async function startServer() {
   db.on('error', (error) => console.error('Connection error:', error));
   db.once('open', () => {
     console.log('Database connected');
-    app.listen(PORT, () => console.log(`🚀 API server running on port ${PORT}`));
+    const serverInstance = app.listen(PORT, () => {
+      console.log(`🚀 API server running on port ${PORT}`);
+    });
+
+    // Handle graceful shutdown
+    process.on('SIGINT', () => {
+      console.log('SIGINT signal received: closing HTTP server');
+      serverInstance.close(() => {
+        console.log('HTTP server closed');
+        db.close(() => {
+          console.log('Database connection closed');
+          process.exit(0);
+        });
+      });
+    });
+
+    process.on('SIGTERM', () => {
+      console.log('SIGTERM signal received: closing HTTP server');
+      serverInstance.close(() => {
+        console.log('HTTP server closed');
+        db.close(() => {
+          console.log('Database connection closed');
+          process.exit(0);
+        });
+      });
+    });
   });
 }
 
-app.get('/health', (req, res) => res.send('OK'));
-
 startServer();
+
+app.get('/health', (req, res) => res.send('OK'));
