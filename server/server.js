@@ -36,7 +36,7 @@ const User = require('./models/User');
 const Donation = require('./models/Donation');
 const Feedback = require('./models/Feedback');
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3001;
 const app = express();
 // Remaining setup...
 
@@ -89,9 +89,9 @@ async function startServer() {
   db.on('error', (error) => console.error('Connection error:', error));
   db.once('open', () => {
     console.log('Database connected');
+    app.listen(PORT, () => console.log(`🚀 API server running on port ${PORT}`));
   });
 }
-app.listen(PORT, () => console.log(`🚀 API server running on port ${PORT}`));
 
 app.get('/health', (req, res) => res.send('OK'));
 
