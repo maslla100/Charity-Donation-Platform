@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { User, Charity, Donation, Feedback } = require('../models');
+const { User, Charity, Donation, Feedback } = require('../models/index');
 const { signToken } = require('../utils/auth');
 const { ApolloError } = require('apollo-server-express');
 const { AuthenticationError } = require('apollo-server-express');
