@@ -8,11 +8,11 @@ const rateLimit = require('express-rate-limit');
 const { getUserFromToken } = require('./utils/auth');
 const db = require('./config/connection');
 const { typeDefs, resolvers } = require('./schemas/index');
-const { User, Charity, Donation } = require('./models');
+const { User, Charity, Donation, Feedback } = require('./models');
 
 
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(cors());
