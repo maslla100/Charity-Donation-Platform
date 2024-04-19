@@ -88,9 +88,9 @@ async function startServer() {
   db.on('error', (error) => console.error('Connection error:', error));
   db.once('open', () => {
     console.log('Database connected');
-    app.listen(PORT, () => console.log(`🚀 API server running on port ${PORT}`));
   });
 }
+app.listen(PORT, () => console.log(`🚀 API server running on port ${PORT}`));
 
 app.get('/health', (req, res) => res.send('OK'));
 
