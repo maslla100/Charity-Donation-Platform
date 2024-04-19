@@ -36,7 +36,7 @@ const User = require('./models/User');
 const Donation = require('./models/Donation');
 const Feedback = require('./models/Feedback');
 
-const PORT = process.env.PORT || 3001;
+//const PORT = process.env.PORT || 3001;
 const app = express();
 // Remaining setup...
 
@@ -70,6 +70,7 @@ if (process.env.NODE_ENV === 'production') {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  persistedQueries: false,
   context: async ({ req }) => {
     const token = req.headers.authorization || '';
     const user = await getUserFromToken(token);
