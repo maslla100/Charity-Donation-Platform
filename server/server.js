@@ -1,22 +1,45 @@
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 const { getUserFromToken } = require('./utils/auth');
 const db = require('./config/connection');
 const { typeDefs, resolvers } = require('./schemas/index');
-const Charity = require('./models/Charity');
+
+// Charity schema definition
+const charitySchema = new Schema({
+  name: { type: String, required: true, trim: true, unique: true, lowercase: true },
+  description: { type: String, required: true, trim: true },
+  email: { type: String, required: true, trim: true, lowercase: true },
+  telephone: { type: String, required: true, trim: true },
+  logo: { type: String, required: false, trim: true },
+  address: {
+    number: { type: String, required: true, trim: true },
+    street: { type: String, required: true, trim: true },
+    city: { type: String, required: true, trim: true },
+    state: { type: String, required: true, trim: true },
+    zipCode: { type: String, required: true, trim: true }
+  },
+  ein: { type: String, required: true, trim: true },
+  missionStatement: { type: String, required: true, trim: true },
+  website: { type: String, required: false, trim: true },
+  rating: { type: String, required: false }
+});
+const Charity = mongoose.models.Charity || mongoose.model('Charity', charitySchema);
+
 const User = require('./models/User');
 const Donation = require('./models/Donation');
-const Feedback = require('./models/Feedback')
-
-
+const Feedback = require('./models/Feedback');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+// Remaining setup...
+
 
 app.use(cors());
 
