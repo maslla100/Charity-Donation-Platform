@@ -48,7 +48,7 @@ const server = new ApolloServer({
   context: async ({ req }) => {
     const token = req.headers.authorization || '';
     const user = await getUserFromToken(token);
-    return { user, User, Charity, Donation };
+    return { user, User, Charity, Donation, Feedback };
   },
   formatError: (error) => {
     console.error(error);
