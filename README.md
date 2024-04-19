@@ -111,7 +111,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 luis.llamas@maslla.com
 
-Project Link: [https://github.com/maslla100/Charity-Donation-Platform](https://github.com/your-username/Charity-Donation-Platform)
+Project Link: [https://github.com/maslla100/Charity-Donation-Platform](https://github.com/maslla100/Charity-Donation-Platform)
 
 Live URL will be up for two to three weeks after last commit is made.  https://charity-donation-platform-l9s2.onrender.com/
 
