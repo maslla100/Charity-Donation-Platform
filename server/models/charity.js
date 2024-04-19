@@ -23,4 +23,5 @@ const charitySchema = new Schema({
 }, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
 const Charity = mongoose.model('Charity', charitySchema);
+
 module.exports = Charity;
