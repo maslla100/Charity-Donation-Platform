@@ -12,7 +12,7 @@ const ContactForm = () => {
         message: ''
     });
 
-    const [sendFeedback, { loading, error }] = useMutation(SEND_FEEDBACK, {
+    const [sendFeedback, { loading }] = useMutation(SEND_FEEDBACK, {
         onCompleted: (data) => {
             // Handle the response based on the success flag
             const severity = data.sendFeedback.success ? 'success' : 'error';

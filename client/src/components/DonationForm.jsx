@@ -12,7 +12,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 const DonationForm = () => {
     const [donationAmount, setDonationAmount] = useState('');
     const [selectedCharity, setSelectedCharity] = useState('');
-    const { loading: loadingCharities, data: charitiesData, error: charitiesError } = useQuery(GET_CHARITIES);
+    const { loading: loadingCharities, data: charitiesData } = useQuery(GET_CHARITIES);
     const [addDonation, { loading: loadingDonation, error: donationError }] = useMutation(ADD_DONATION);
 
     const stripe = useStripe();

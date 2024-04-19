@@ -7,7 +7,7 @@ import { TextField, Button, Container, Paper, Typography, CircularProgress, Aler
 const SignInPage = () => {
     const [formState, setFormState] = useState({ email: '', password: '' });
     const [emailError, setEmailError] = useState('');
-    const [loginUser, { loading, data, error }] = useMutation(LOGIN_USER);
+    const [loginUser, { loading, error }] = useMutation(LOGIN_USER);
     const navigate = useNavigate();
 
 
@@ -42,17 +42,17 @@ const SignInPage = () => {
         return String(email)
             .toLowerCase()
             .match(
-                /^(([^<>()\[\]\\.,;:\s@\"]+(\.[^<>()\[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            );
+                /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
     };
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
+    const handleChange = ({ target: { name, value } }) => {
         if (name === 'email') {
-            setEmailError(validateEmail(value) ? '' : 'Invalid email format');
+            const isValidEmail = validateEmail(value);
+            setEmailError(isValidEmail ? '' : 'Invalid email format');
         }
-        setFormState({ ...formState, [name]: value });
+        setFormState(prev => ({ ...prev, [name]: value }));
     };
+
 
     return (
         <Container component="main" maxWidth="xs">

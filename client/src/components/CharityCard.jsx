@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, Typography, CardActionArea, CardMedia, Link, Button, Grid } from '@mui/material';
+import { Card, CardContent, Typography, CardActionArea, CardMedia, Link, Button } from '@mui/material';
 import '../styles/CharityCard.css';
 
 const CharityCard = ({ charity }) => {
