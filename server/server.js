@@ -3,7 +3,7 @@ const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 const cors = require('cors');
-//const helmet = require('helmet');
+const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
@@ -41,20 +41,29 @@ const app = express();
 // Remaining setup...
 
 
-app.use(cors());
+app.use(cors({
+  origin: "http://charity-donation-platform-l9s2.onrender.com"
+}));
 
-/*app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", "https://js.stripe.com"], // Added Stripe's URL, removed 'unsafe-inline'
-    styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"], // Kept 'unsafe-inline' for styles
-    fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"], // Reordered sources for clarity
-    imgSrc: ["'self'", "data:"], // No changes needed here
-    connectSrc: ["'self'", "https://charity-donation-platform-l9s2.onrender.com/graphql", "wss://charity-donation-platform-l9s2.onrender.com/graphql"], // Added HTTPS version
-    // Add reportUri if you want to receive reports on CSP violations
-    reportUri: ["/report-violation"]
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://js.stripe.com"],
+      styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+      imgSrc: ["'self'", "data:"],
+      connectSrc: ["'self'", "http://charity-donation-platform-l9s2.onrender.com/graphql", "ws://charity-donation-platform-l9s2.onrender.com/graphql"]
+    }
+  },
+  xssFilter: true,
+  hidePoweredBy: true,
+  hsts: {
+    maxAge: 63072000, // 2 years
+    includeSubDomains: true,
+    preload: false
   }
-})); */
+}));
 
 
 

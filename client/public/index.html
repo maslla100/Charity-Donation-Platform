@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Charity Donation Platform</title>
-
-
-
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'https://js.stripe.com';
+    style-src 'self' 'https://fonts.googleapis.com' 'unsafe-inline';
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' data:;
+    connect-src 'self' 'http://charity-donation-platform-l9s2.onrender.com/graphql' 'ws://charity-donation-platform-l9s2.onrender.com/graphql';">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
 </head>
-<link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-
 <body>
     <div id="root"></div>
 </body>
-
-</html>c
+</html>
