@@ -8,9 +8,9 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
-const Footer = () => {
+function Footer() {
     return (
-        <footer sx={{ backgroundColor: '#333', color: 'white', p: 6, textAlign: 'center' }}>
+        <footer style={{ backgroundColor: '#333', color: 'white', padding: '24px', textAlign: 'center' }}> {/* Adjusted inline style for compatibility */}
             <Grid container direction="column" alignItems="center" spacing={2}>
                 <Grid item>
                     <Typography variant="h6" gutterBottom>
@@ -21,13 +21,13 @@ const Footer = () => {
                     </Typography>
                 </Grid>
                 <Grid item>
-                    {['/', '/about-us', '/donation', '/contact', '/joinus', '/donation-history'].map((path, index) => (
-                        <Link component={RouterLink} to={path} key={index} sx={{ color: 'inherit', mr: index < 5 ? 2 : 0 }}>
+                    {['/', '/about-us', '/donation', '/contact', '/joinus', '/donation-history'].map((path) => (
+                        <Link component={RouterLink} to={path} key={path} style={{ color: 'inherit', marginRight: path !== '/donation-history' ? '8px' : '0' }}>
                             {path.slice(1) || 'Home'}
                         </Link>
                     ))}
                 </Grid>
-                <Grid item sx={{ mt: 2, display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 2 }}>
+                <Grid item style={{ marginTop: '8px', display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '8px' }}>
                     <IconButton aria-label="Facebook page" color="inherit" href="https://facebook.com/" target="_blank" rel="noopener noreferrer">
                         <FacebookIcon />
                     </IconButton>
@@ -40,17 +40,17 @@ const Footer = () => {
                 </Grid>
                 <Grid item>
                     <Typography variant="body2" color="textSecondary" align="center">
-                        {'© '}
+                        © 
                         <Link color="inherit" href="https://github.com/maslla100" target="_blank" rel="noopener noreferrer">
                             Designed By:
-                        </Link>{' '}
+                        </Link> 
                         {new Date().getFullYear()}
-                        {'.'}
+                        .
                     </Typography>
                 </Grid>
             </Grid>
         </footer>
     );
-};
+}
 
 export default Footer;

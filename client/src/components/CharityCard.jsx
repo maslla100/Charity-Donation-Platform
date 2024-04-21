@@ -3,24 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, Typography, CardActionArea, CardMedia, Link, Button } from '@mui/material';
 import '../styles/CharityCard.css';
 
-const CharityCard = ({ charity }) => {
-    let navigate = useNavigate();
+// Using function declaration instead of arrow function for the component
+function CharityCard({ charity }) {
+    const navigate = useNavigate(); // Changed 'let' to 'const'
 
     const handleCardClick = () => {
-        navigate(`/donation`);
+        navigate('/donation');
     };
 
     const handleDonateClick = (e) => {
         e.stopPropagation();
-        navigate(`/donation`);
+        navigate('/donation');
     };
 
-    const capitalizeWords = (str) =>
+    const capitalizeWords = (str) => 
         str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
-    const formatAddress = (address) => {
-        return `${address.number} ${address.street}, ${address.city}, ${address.state} ${address.zipCode}`;
-    };
+    const formatAddress = (address) => 
+        `${address.number} ${address.street}, ${address.city}, ${address.state} ${address.zipCode}`;
 
     return (
         <Card className="charity-card" variant="outlined">
@@ -80,6 +80,6 @@ const CharityCard = ({ charity }) => {
             </Button>
         </Card>
     );
-};
+}
 
 export default CharityCard;

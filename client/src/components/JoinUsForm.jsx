@@ -3,125 +3,104 @@ import { useMutation } from '@apollo/client';
 import { TextField, Button, Box, Typography, Snackbar, Alert, MenuItem } from '@mui/material';
 import { SIGNUP_USER } from '../graphql/mutations';
 
-const states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+const states = [
+  'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida',
+  'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine',
+  'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada',
+  'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma',
+  'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+];
 
-const JoinUsForm = () => {
+function JoinUsForm() {
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        number: '',
-        street: '',
-        city: '',
-        state: '',
-        zipCode: '',
-        country: '' // Optional field, I should take it out!
+        firstName: '', lastName: '', email: '', password: '', confirmPassword: '', number: '',
+        street: '', city: '', state: '', zipCode: '', country: ''
     });
     const [errors, setErrors] = useState({});
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [signupUser, { loading, error }] = useMutation(SIGNUP_USER);
 
-    const handleChange = (event) => {
+    const handleChange = event => {
         const { name, value } = event.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setFormData(prev => ({ ...prev, [name]: value }));
         if (name === 'password' || name === 'confirmPassword') {
-            if (formData.password !== formData.confirmPassword) {
-                setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Passwords do not match' }));
-            } else {
-                setErrors(prevErrors => ({ ...prevErrors, confirmPassword: '' }));
-            }
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                confirmPassword: formData.password !== formData.confirmPassword ? 'Passwords do not match' : ''
+            }));
         }
     };
 
-    const validateEmail = (email) => {
-        return String(email)
-            .toLowerCase()
-            .match(
-                /^(\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+)$/
-            );
-    };
+    const validateEmail = email => String(email)
+        .toLowerCase()
+        .match(/^(\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+)$/);
 
-    const validatePassword = (password) => {
-        return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/.test(password);
-    };
+    const validatePassword = password => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/.test(password);
 
     const validateForm = () => {
         const requiredFields = ['firstName', 'lastName', 'email', 'password', 'confirmPassword', 'number', 'street', 'city', 'state', 'zipCode'];
-        for (let field of requiredFields) {
+    
+        // Check for empty required fields
+        const missingField = requiredFields.some(field => {
             if (!formData[field]) {
                 setSnackbarMessage(`Please fill out the ${field.replace(/([A-Z])/g, ' $1')}`);
                 setOpenSnackbar(true);
-                return false;
+                return true;
             }
-        }
-        if (formData.password !== formData.confirmPassword) {
-            setSnackbarMessage('Passwords do not match.');
-            setOpenSnackbar(true);
             return false;
-        }
+        });
+    
+        if (missingField) return false;
+    
+        // Additional validations
         if (!validateEmail(formData.email)) {
             setSnackbarMessage('Please enter a valid email address.');
             setOpenSnackbar(true);
             return false;
         }
+    
         if (!validatePassword(formData.password)) {
             setSnackbarMessage('Password does not meet complexity requirements.');
             setOpenSnackbar(true);
             return false;
         }
+    
+        if (formData.password !== formData.confirmPassword) {
+            setSnackbarMessage('Passwords do not match.');
+            setOpenSnackbar(true);
+            return false;
+        }
+    
         return true;
     };
+    
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async event => {
         event.preventDefault();
         if (!validateForm()) return;
 
-        const signupData = {
-            ...formData,
-            address: {
-                number: formData.number,
-                street: formData.street,
-                city: formData.city,
-                state: formData.state,
-                zipCode: formData.zipCode,
-                country: formData.country || undefined // Include only if provided
-            },
-        };
+        const address = { number: formData.number, street: formData.street, city: formData.city, state: formData.state, zipCode: formData.zipCode, country: formData.country || undefined };
+        const signupData = { ...formData, address };
 
         try {
-            const response = await signupUser({
-                variables: { ...signupData },
-            });
+            await signupUser({ variables: signupData });
             setSnackbarMessage('Account created successfully! Please log in.');
             setOpenSnackbar(true);
             setFormData({
-                firstName: '',
-                lastName: '',
-                email: '',
-                password: '',
-                confirmPassword: '',
-                number: '',
-                street: '',
-                city: '',
-                state: '',
-                zipCode: '',
-                country: ''
+                firstName: '', lastName: '', email: '', password: '', confirmPassword: '', number: '',
+                street: '', city: '', state: '', zipCode: '', country: ''
             });
         } catch (err) {
-            const message = err.graphQLErrors?.[0]?.message || 'Failed to create account.';
-            setSnackbarMessage(message);
+            setSnackbarMessage(err.graphQLErrors?.[0]?.message || 'Failed to create account.');
             setOpenSnackbar(true);
         }
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: -15, p: 16, boxShadow: 3, borderRadius: 2 }}>            <Typography variant="h6">Personal Information</Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: -15, p: 16, boxShadow: 3, borderRadius: 2 }}>
+            <Typography variant="h6">Personal Information</Typography>
             {['firstName', 'lastName', 'email', 'password', 'confirmPassword'].map(field => (
                 <TextField
                     key={field}
@@ -143,7 +122,7 @@ const JoinUsForm = () => {
                 <TextField
                     key={field}
                     margin="normal"
-                    required={field !== 'country'} // Country is optional
+                    required={field !== 'country'}
                     fullWidth
                     id={field}
                     label={field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1')}

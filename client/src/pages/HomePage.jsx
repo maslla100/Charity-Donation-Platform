@@ -1,9 +1,9 @@
 import React from 'react';
-import CharityList from '../components/CharityList';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';  // Moved up as per import order
+import CharityList from '../components/CharityList'; // Adjusted to be after react-router-dom
 import '../styles/HomePage.css';
 
-const HomePage = () => {
+function HomePage() {
     return (
         <div className="home-container">
             <header className="home-header">
@@ -19,6 +19,6 @@ const HomePage = () => {
             </main>
         </div>
     );
-};
+}
 
 export default HomePage;

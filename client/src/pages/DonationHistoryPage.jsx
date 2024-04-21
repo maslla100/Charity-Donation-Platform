@@ -1,9 +1,9 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_USER_DONATIONS } from '../graphql/queries';
 import { CircularProgress, Alert, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { format } from 'date-fns';  // Only import what is needed
+import { format } from 'date-fns';  // Corrected import order, now after external libraries
+import { GET_USER_DONATIONS } from '../graphql/queries'; // GraphQL imports are placed after date-fns
 
 function formatDate(timestamp) {
     console.log("Raw timestamp:", timestamp); // Log to inspect the raw timestamp values
@@ -15,7 +15,7 @@ function formatDate(timestamp) {
     try {
         const date = new Date(Number(timestamp));  // Convert the numeric timestamp to a Date object and ensure it's treated as a number
         console.log("Converted Date:", date); // Log to see what the Date object looks like
-        if (isNaN(date.getTime())) {  // Validate the date object
+        if (Number.isNaN(date.getTime())) {  // Changed to use Number.isNaN
             console.error('Invalid date constructed from timestamp:', timestamp);
             return 'Invalid date';
         }
@@ -26,14 +26,15 @@ function formatDate(timestamp) {
     }
 }
 
-const DonationHistoryPage = () => {
+function DonationHistoryPage() {  // Changed to function declaration
     const userId = localStorage.getItem('userId');
     const navigate = useNavigate();
 
     const { loading, error, data } = useQuery(GET_USER_DONATIONS, {
-        variables: { userId: userId },
+        variables: { userId }, // Applying property shorthand here
         skip: !userId,
     });
+    
 
     if (!userId) {
         return <p>Please log in to view your donation history.</p>;

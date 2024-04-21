@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { SEND_FEEDBACK } from '../graphql/mutations';
 import { TextField, Button, Box, Typography, Snackbar, Alert } from '@mui/material';
+import { SEND_FEEDBACK } from '../graphql/mutations'; // Corrected import order
 
-
-
-const ContactForm = () => {
+// Converted to a function declaration
+function ContactForm() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         message: ''
     });
 
+    const [snackbarInfo, setSnackbarInfo] = useState({ open: false, message: '', severity: 'info' });
+
     const [sendFeedback, { loading }] = useMutation(SEND_FEEDBACK, {
         onCompleted: (data) => {
-            // Handle the response based on the success flag
             const severity = data.sendFeedback.success ? 'success' : 'error';
             setSnackbarInfo({
                 open: true,
                 message: data.sendFeedback.message,
-                severity: severity
+                severity // Using shorthand here
             });
+            
             if (data.sendFeedback.success) {
                 setFormData({ name: '', email: '', message: '' }); // Clear form only on success
             }
@@ -34,16 +35,12 @@ const ContactForm = () => {
         }
     });
 
-    const [snackbarInfo, setSnackbarInfo] = useState({ open: false, message: '', severity: 'info' });
-
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData(prev => ({ ...prev, [name]: value })); // Object shorthand maintained
     };
 
-    const validateEmail = (email) => {
-        return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email);
-    };
+    const validateEmail = (email) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email); // Arrow function with implicit return
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -56,7 +53,7 @@ const ContactForm = () => {
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') return;
-        setSnackbarInfo({ ...snackbarInfo, open: false });
+        setSnackbarInfo(prevInfo => ({ ...prevInfo, open: false })); // Properly use object spread with implicit return
     };
 
     return (
@@ -114,18 +111,6 @@ const ContactForm = () => {
             </Snackbar>
         </Box>
     );
-};
+}
 
 export default ContactForm;
-
-
-
-
-
-
-
-
-
-
-
-

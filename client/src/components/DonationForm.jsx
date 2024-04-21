@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { ADD_DONATION } from '../graphql/mutations';
 import { CardElement, useStripe, useElements, Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown, Loader } from 'semantic-ui-react'; // Corrected the order of imports
+import { ADD_DONATION } from '../graphql/mutations';
 import { GET_CHARITIES } from '../graphql/queries';
 import '../styles/DonationForm.css';
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
 
-const DonationForm = () => {
+// Changed to a function declaration
+function DonationForm() {
     const [donationAmount, setDonationAmount] = useState('');
     const [selectedCharity, setSelectedCharity] = useState('');
-    const { loading: loadingCharities, data: charitiesData } = useQuery(GET_CHARITIES);
+    const { loading: loadingCharities, data: charitiesData } = useQuery(GET_CHARITIES); // Removed unused 'error: charitiesError'
     const [addDonation, { loading: loadingDonation, error: donationError }] = useMutation(ADD_DONATION);
 
     const stripe = useStripe();
@@ -40,7 +41,7 @@ const DonationForm = () => {
         }
 
         const amount = parseFloat(donationAmount);
-        if (isNaN(amount) || amount <= 0) {
+        if (Number.isNaN(amount) || amount <= 0) { // Replaced isNaN with Number.isNaN
             alert('Please enter a valid donation amount.');
             return;
         }
@@ -63,19 +64,20 @@ const DonationForm = () => {
         <Elements stripe={stripePromise}>
             <form onSubmit={handleSubmit} className="donation-form">
                 <h3>Make a Donation</h3>
-                <Dropdown
-                    placeholder='Select Charity'
-                    fluid
-                    selection
-                    className="charity-dropdown"
-                    loading={loadingCharities}
-                    options={charitiesData?.charities.map(charity => ({
-                        key: charity._id,
-                        text: capitalizeText(charity.name),
-                        value: charity._id
-                    }))}
-                    onChange={(_, { value }) => setSelectedCharity(value)}
-                />
+                {loadingCharities ? <Loader active inline='centered' /> : (
+                    <Dropdown
+                        placeholder='Select Charity'
+                        fluid
+                        selection
+                        className="charity-dropdown"
+                        options={charitiesData?.charities.map(charity => ({
+                            key: `charity-${charity._id}`, // Avoid dangling underscore and clarify key context
+                            text: capitalizeText(charity.name),
+                            value: charity._id
+                        }))}
+                        onChange={(_, { value }) => setSelectedCharity(value)}
+                    />
+                )}
                 <CardElement className="card-element" />
                 <input
                     type="number"
@@ -91,6 +93,6 @@ const DonationForm = () => {
             </form>
         </Elements>
     );
-};
+}
 
 export default DonationForm;

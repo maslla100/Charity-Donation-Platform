@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 
-const Navbar = () => {
+function Navbar() {
     const navigate = useNavigate();
     const isLoggedIn = Boolean(localStorage.getItem('token'));
 
@@ -45,6 +45,6 @@ const Navbar = () => {
             </AppBar>
         </>
     );
-};
+}
 
 export default Navbar;

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "react-scripts start",
-    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .js,.jsx --fix"
@@ -81,7 +81,7 @@
     "@babel/core": "^7.24.4",
     "@babel/eslint-parser": "^7.24.1",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-env": "^7.24.4",
     "@babel/preset-react": "^7.24.1",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -186,6 +186,7 @@
       "react-hooks"
     ],
     "rules": {
+      "no-underscore-dangle": ["error", { "allow": ["_id"] }],
       "react/prop-types": "off",
       "react/function-component-definition": [
         "error",

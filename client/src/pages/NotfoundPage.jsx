@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Typography, Button, Container } from '@mui/material';
 
-const NotFoundPage = () => {
+function NotFoundPage() {
     return (
         <Container component="main" maxWidth="xs" style={{ marginTop: '20vh', textAlign: 'center' }}>
             <Typography variant="h4" gutterBottom>
@@ -22,6 +22,6 @@ const NotFoundPage = () => {
             </Button>
         </Container>
     );
-};
+}
 
 export default NotFoundPage;

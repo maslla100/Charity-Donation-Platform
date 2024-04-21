@@ -2,10 +2,10 @@ import React from 'react';
 import { Typography, Container, Paper } from '@mui/material';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 
-const AboutUsPage = () => {
+function AboutUsPage() {
     return (
         <HelmetProvider>
-            <main style={{ padding: '20px 0' }}>  {/* Added padding for better spacing */}
+            <main style={{ padding: '20px 0' }}>
                 <Helmet>
                     <title>About Us - Charity Donation Platform</title>
                     <meta name="description" content="Learn about Charity Donation Platform and our mission to connect donors with charities using cutting-edge technology." />
@@ -14,7 +14,7 @@ const AboutUsPage = () => {
                     <Typography component="h1" variant="h2" gutterBottom>
                         About Us
                     </Typography>
-                    <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}> {/* Each section is now a Paper for better visual separation */}
+                    <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
                         <Typography variant="body1" paragraph>
                             At Charity Donation Platform, we are dedicated to creating connections that matter. Our mission is to empower charitable organizations by providing them with a cutting-edge platform where they can showcase their causes, connect with donors, and receive vital funds to continue their impactful work.
                         </Typography>
@@ -33,6 +33,6 @@ const AboutUsPage = () => {
             </main>
         </HelmetProvider>
     );
-};
+}
 
 export default AboutUsPage;
