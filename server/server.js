@@ -42,7 +42,7 @@ const app = express();
 
 
 app.use(cors({
-  origin: "http://charity-donation-platform-l9s2.onrender.com"
+  origin: "https://charity-donation-platform-l9s2.onrender.com"
 }));
 
 app.use(helmet({
