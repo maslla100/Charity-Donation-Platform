@@ -10,6 +10,8 @@ const { Schema } = mongoose;
 const { getUserFromToken } = require('./utils/auth');
 const db = require('./config/connection');
 const { typeDefs, resolvers } = require('./schemas/index');
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
+
 
 // Charity schema definition
 const charitySchema = new Schema({
@@ -42,8 +44,26 @@ const app = express();
 
 
 app.use(cors({
-  origin: "https://charity-donation-platform-l9s2.onrender.com"
+  origin: ["https://charity-donation-platform-l9s2.onrender.com", "http://localhost"],
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+app.post('/create-payment-intent', async (req, res) => {
+  try {
+    const { amount } = req.body; 
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency: 'usd',
+      payment_method_types: ['card'],
+    });
+    res.send({ clientSecret: paymentIntent.client_secret });
+  } catch (err) {
+    console.error('Stripe error:', err);
+    res.status(500).send({ error: err.message });
+  }
+});
+
 
 /*app.use(helmet({
   contentSecurityPolicy: {
