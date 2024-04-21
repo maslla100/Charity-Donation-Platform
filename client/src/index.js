@@ -9,9 +9,11 @@ import App from './components/App.jsx';
 import client from './utils/apolloClient';
 import theme from './theme';
 import 'semantic-ui-css/semantic.min.css';
+import { loadStripe } from '@stripe/stripe-js';
 
-// Load your stripe public key from the environment variables or directly
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+// Load Stripe with your secret key from the environment variables
+const stripePromise = loadStripe(process.env.STRIPE_API_KEY);
+
 
 ReactDOM.render(
   <React.StrictMode>
