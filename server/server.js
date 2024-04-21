@@ -43,10 +43,17 @@ const app = express();
 
 app.use(cors());
 
-// Disabled the CSP for development by setting contentSecurityPolicy to false in Helmet
-app.use(helmet({
-  contentSecurityPolicy: false,
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'", "'unsafe-inline'"],
+    styleSrc: ["'self'", "'https://fonts.googleapis.com'"],
+    fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
+    imgSrc: ["'self'", "data:"],
+    connectSrc: ["'self'", "wss://charity-donation-platform-l9s2.onrender.com/graphql"]
+  }
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
