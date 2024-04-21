@@ -10,7 +10,6 @@ import client from './utils/apolloClient';
 import theme from './theme';
 import 'semantic-ui-css/semantic.min.css';
 
-
 // Load your stripe public key from the environment variables or directly
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
@@ -25,5 +24,5 @@ ReactDOM.render(
       </ThemeProvider>
     </ApolloProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

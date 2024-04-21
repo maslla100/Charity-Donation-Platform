@@ -24,8 +24,6 @@ query GetCharities {
 
 `;
 
-
-
 export const FETCH_USER_DASHBOARD = gql`
 query FetchUserDashboard($userId: ID!) {
   user(id: $userId) {

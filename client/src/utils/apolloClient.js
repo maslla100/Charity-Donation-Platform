@@ -4,11 +4,9 @@ const httpLink = new HttpLink({
   uri: 'http://charity-donation-platform-l9s2.onrender.com/graphql',
 });
 
-
 const client = new ApolloClient({
   link: httpLink,
   cache: new InMemoryCache(),
 });
 
 export default client;
-

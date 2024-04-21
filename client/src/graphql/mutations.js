@@ -18,8 +18,6 @@ export const SEND_FEEDBACK = gql`
   }
 `;
 
-
-
 export const SEND_INQUIRY = gql`
   mutation SendInquiry($input: InquiryInput!) {
     sendInquiry(input: $input) {
@@ -30,9 +28,6 @@ export const SEND_INQUIRY = gql`
     }
   }
 `;
-
-
-
 
 export const ADD_DONATION = gql`
   mutation AddDonation($charityId: ID!, $amount: Float!, $userId: ID!) {
@@ -76,7 +71,6 @@ mutation SignupAndDonate($firstName: String!, $lastName: String!, $email: String
 }
 `;
 
-
 export const SIGNUP_USER = gql`
   mutation SignupUser($firstName: String!, $lastName: String!, $email: String!, $password: String!,
   $number: String!, $street: String!, $city: String!, $state: String!, $zipCode: String!) {
@@ -100,8 +94,6 @@ export const SIGNUP_USER = gql`
   }
 `;
 
-
-
 export const LOGIN_USER = gql`
   mutation signIn($email: String!, $password: String!) {
     signIn(email: $email, password: $password) {
@@ -113,6 +105,3 @@ export const LOGIN_USER = gql`
     }
   }
 `;
-
-
-
