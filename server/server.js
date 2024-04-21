@@ -10,7 +10,9 @@ const { Schema } = mongoose;
 const { getUserFromToken } = require('./utils/auth');
 const db = require('./config/connection');
 const { typeDefs, resolvers } = require('./schemas/index');
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
+const Stripe = require('stripe');
+const stripe = Stripe(process.env.REACT_APP_STRIPE_API_KEY);  
+
 
 
 // Charity schema definition
@@ -63,6 +65,7 @@ app.post('/create-payment-intent', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
+
 
 
 /*app.use(helmet({
