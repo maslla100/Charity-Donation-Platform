@@ -1,4 +1,3 @@
-require('dotenv').config();
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from '@apollo/client';
@@ -12,7 +11,7 @@ import 'semantic-ui-css/semantic.min.css';
 import { loadStripe } from '@stripe/stripe-js';
 
 // Load Stripe with your secret key from the environment variables
-const stripePromise = loadStripe(process.env.STRIPE_API_KEY);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
 
 
 ReactDOM.render(
