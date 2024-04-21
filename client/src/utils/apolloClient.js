@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
 
 const httpLink = new HttpLink({
-  uri: 'http://charity-donation-platform-l9s2.onrender.com/graphql',
+  uri: 'https://charity-donation-platform-l9s2.onrender.com/graphql',
 });
 
 const client = new ApolloClient({
