@@ -4,7 +4,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+
   },
   "dependencies": {
     "@apollo/client": "^3.9.11",
