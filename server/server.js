@@ -3,7 +3,7 @@ const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 const cors = require('cors');
-const helmet = require('helmet');
+//const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
@@ -45,7 +45,7 @@ app.use(cors({
   origin: "https://charity-donation-platform-l9s2.onrender.com"
 }));
 
-app.use(helmet({
+/*app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
@@ -63,7 +63,7 @@ app.use(helmet({
     includeSubDomains: true,
     preload: false
   }
-}));
+}));*/
 
 
 
