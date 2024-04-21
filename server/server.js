@@ -53,7 +53,7 @@ app.use(helmet({
       styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
       fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
       imgSrc: ["'self'", "data:"],
-      connectSrc: ["'self'", "http://charity-donation-platform-l9s2.onrender.com/graphql", "ws://charity-donation-platform-l9s2.onrender.com/graphql"]
+      connectSrc: ["'self'", "https://charity-donation-platform-l9s2.onrender.com", "wss://charity-donation-platform-l9s2.onrender.com/graphql"]
     }
   },
   xssFilter: true,
