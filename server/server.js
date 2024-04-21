@@ -46,13 +46,16 @@ app.use(cors());
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", "'unsafe-inline'"],
-    styleSrc: ["'self'", "'https://fonts.googleapis.com'"],
-    fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
-    imgSrc: ["'self'", "data:"],
-    connectSrc: ["'self'", "wss://charity-donation-platform-l9s2.onrender.com/graphql"]
+    scriptSrc: ["'self'", "https://js.stripe.com"], // Added Stripe's URL, removed 'unsafe-inline'
+    styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"], // Kept 'unsafe-inline' for styles
+    fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"], // Reordered sources for clarity
+    imgSrc: ["'self'", "data:"], // No changes needed here
+    connectSrc: ["'self'", "https://charity-donation-platform-l9s2.onrender.com/graphql", "wss://charity-donation-platform-l9s2.onrender.com/graphql"], // Added HTTPS version
+    // Add reportUri if you want to receive reports on CSP violations
+    reportUri: ["/report-violation"]
   }
 }));
+
 
 
 app.use(express.json());
