@@ -3,7 +3,7 @@ const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 const cors = require('cors');
-const helmet = require('helmet');
+//const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
@@ -43,7 +43,7 @@ const app = express();
 
 app.use(cors());
 
-app.use(helmet.contentSecurityPolicy({
+/*app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
     scriptSrc: ["'self'", "https://js.stripe.com"], // Added Stripe's URL, removed 'unsafe-inline'
@@ -54,7 +54,7 @@ app.use(helmet.contentSecurityPolicy({
     // Add reportUri if you want to receive reports on CSP violations
     reportUri: ["/report-violation"]
   }
-}));
+})); */
 
 
 
