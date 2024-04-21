@@ -1,21 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react'; // Ensure useContext is imported
 import { useQuery, useMutation } from '@apollo/client';
 import { CardElement, useStripe, useElements, Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import { Dropdown, Loader } from 'semantic-ui-react'; // Corrected the order of imports
+import { Dropdown, Loader } from 'semantic-ui-react';
 import { ADD_DONATION } from '../graphql/mutations';
 import { GET_CHARITIES } from '../graphql/queries';
+import { StripeContext } from '../utils/StripeContext'; // Ensure correct path
 import '../styles/DonationForm.css';
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
-
-// Changed to a function declaration
 function DonationForm() {
+    const stripePromise = useContext(StripeContext); // Correct usage of useContext to access Stripe
     const [donationAmount, setDonationAmount] = useState('');
     const [selectedCharity, setSelectedCharity] = useState('');
-    const { loading: loadingCharities, data: charitiesData } = useQuery(GET_CHARITIES); // Removed unused 'error: charitiesError'
+    const { loading: loadingCharities, data: charitiesData } = useQuery(GET_CHARITIES);
     const [addDonation, { loading: loadingDonation, error: donationError }] = useMutation(ADD_DONATION);
-
     const stripe = useStripe();
     const elements = useElements();
 
@@ -41,7 +38,7 @@ function DonationForm() {
         }
 
         const amount = parseFloat(donationAmount);
-        if (Number.isNaN(amount) || amount <= 0) { // Replaced isNaN with Number.isNaN
+        if (Number.isNaN(amount) || amount <= 0) {
             alert('Please enter a valid donation amount.');
             return;
         }
@@ -71,7 +68,7 @@ function DonationForm() {
                         selection
                         className="charity-dropdown"
                         options={charitiesData?.charities.map(charity => ({
-                            key: `charity-${charity._id}`, // Avoid dangling underscore and clarify key context
+                            key: `charity-${charity._id}`,
                             text: capitalizeText(charity.name),
                             value: charity._id
                         }))}
